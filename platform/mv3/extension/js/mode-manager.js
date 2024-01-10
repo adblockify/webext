@@ -243,7 +243,7 @@ async function readFilteringModeDetails() {
         localRead('adminNoFiltering'),
     ]);
     if ( userModes === undefined ) {
-        userModes = { basic: [ 'all-urls' ] };
+        userModes = { complete: [ 'all-urls' ] };
     }
     userModes = unserializeModeDetails(userModes);
     if ( Array.isArray(adminNoFiltering) ) {

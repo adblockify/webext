@@ -39,14 +39,12 @@
   "options_ui": {
       "page": "dashboard.html"
   },
-  "optional_permissions": [
-    "<all_urls>"
-  ],
   "permissions": [
     "activeTab",
     "declarativeNetRequest",
     "scripting",
-    "storage"
+    "storage",
+    "<all_urls>"
   ],
   "short_name": "AdBlockify",
   "version": "1.0",
