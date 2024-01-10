@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "uBlock Origin Lite",
+    "message": "AdBlockify",
     "description": "extension name."
   },
   "extShortDesc": {
@@ -12,8 +12,8 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "dashboardName": {
-    "message": "לוח־מחוונים – uBO Lite",
-    "description": "English: uBO Lite — Dashboard"
+    "message": "לוח־מחוונים – AdBlockify",
+    "description": "English: AdBlockify - Dashboard"
   },
   "settingsPageName": {
     "message": "הגדרות",
@@ -104,7 +104,7 @@
     "description": "The header text for the welcome message section"
   },
   "firstRunDescription": {
-    "message": "התקנת uBO Lite הסתיימה זה עתה. ניתן לבחור כאן את אופן סינון ברירת המחדל בכל אתרי הרשת.\n\nכברירת מחדל, ייבחר אופן סינון <em>בסיסי</em> מאחר והוא אינו דורש הרשאות קריאה ושינוי נתונים. 'סומכים על uBO Lite?' אם כן, ניתן להעניק ל־uBO Lite הרשאות נרחבות לכתיבה ושינוי נתונים בכלול אתרי הרשת על מנת לאפשר יכולות סינון מתקדמות יותר כבררת מחדל.",
+    "message": "התקנת AdBlockify הסתיימה זה עתה. ניתן לבחור כאן את אופן סינון ברירת המחדל בכל אתרי הרשת.\n\nכברירת מחדל, ייבחר אופן סינון <em>בסיסי</em> מאחר והוא אינו דורש הרשאות קריאה ושינוי נתונים. 'סומכים על AdBlockify?' אם כן, ניתן להעניק ל־AdBlockify הרשאות נרחבות לכתיבה ושינוי נתונים בכלול אתרי הרשת על מנת לאפשר יכולות סינון מתקדמות יותר כבררת מחדל.",
     "description": "Descriptive text shown at first install time only "
   },
   "defaultFilteringModeSectionLabel": {

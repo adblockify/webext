@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "uBlock Origin Lite",
+    "message": "AdBlockify",
     "description": "extension name."
   },
   "extShortDesc": {
@@ -12,8 +12,8 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "dashboardName": {
-    "message": "uBO Lite — Dasbor",
-    "description": "English: uBO Lite — Dashboard"
+    "message": "AdBlockify — Dasbor",
+    "description": "English: AdBlockify - Dashboard"
   },
   "settingsPageName": {
     "message": "Pengaturan",
@@ -104,7 +104,7 @@
     "description": "The header text for the welcome message section"
   },
   "firstRunDescription": {
-    "message": "Terima kasih telah memasang uBO Lite. Anda bisa memilih di sini mode filter bawaan untuk digunakan pada semua situs web.\n\nSecara bawaan, mode <em>Dasar</em> akan dipilih karena tidak membutuhkan izin untuk membaca dan mengubah data. Jika Anda mempercayai uBO Lite, Anda bisa memberikan izin tambahan untuk membaca dan mengubah data pada semua situs web untuk mengaktifkan kemampuan filter yang lebih luas untuk semua situs web secara bawaan.",
+    "message": "Terima kasih telah memasang AdBlockify. Anda bisa memilih di sini mode filter bawaan untuk digunakan pada semua situs web.\n\nSecara bawaan, mode <em>Dasar</em> akan dipilih karena tidak membutuhkan izin untuk membaca dan mengubah data. Jika Anda mempercayai AdBlockify, Anda bisa memberikan izin tambahan untuk membaca dan mengubah data pada semua situs web untuk mengaktifkan kemampuan filter yang lebih luas untuk semua situs web secara bawaan.",
     "description": "Descriptive text shown at first install time only "
   },
   "defaultFilteringModeSectionLabel": {

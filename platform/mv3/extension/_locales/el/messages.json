@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "uBlock Origin Lite",
+    "message": "AdBlockify",
     "description": "extension name."
   },
   "extShortDesc": {
@@ -12,8 +12,8 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "dashboardName": {
-    "message": "uBO Lite — Πίνακας ελέγχου",
-    "description": "English: uBO Lite — Dashboard"
+    "message": "AdBlockify — Πίνακας ελέγχου",
+    "description": "English: AdBlockify - Dashboard"
   },
   "settingsPageName": {
     "message": "Ρυθμίσεις",
@@ -104,7 +104,7 @@
     "description": "The header text for the welcome message section"
   },
   "firstRunDescription": {
-    "message": "Μόλις εγκαταστήσατε το uBO Lite. Μπορείτε να επιλέξετε εδώ την προεπιλεγμένη λειτουργία φιλτραρίσματος για χρήση σε όλους τους ιστότοπους.\n\nΑπό προεπιλογή, έχει επιλεγεί η λειτουργία <em>Βασική</em> επειδή δεν απαιτεί άδεια ανάγνωσης και αλλαγής δεδομένων. Εάν εμπιστεύεστε το uBO Lite, μπορείτε να του δώσετε ευρεία άδεια να διαβάζει και να αλλάζει δεδομένα σε όλους τους ιστότοπους, προκειμένου να ενεργοποιηθούν πιο προηγμένες δυνατότητες φιλτραρίσματος για όλους τους ιστότοπους από προεπιλογή.",
+    "message": "Μόλις εγκαταστήσατε το AdBlockify. Μπορείτε να επιλέξετε εδώ την προεπιλεγμένη λειτουργία φιλτραρίσματος για χρήση σε όλους τους ιστότοπους.\n\nΑπό προεπιλογή, έχει επιλεγεί η λειτουργία <em>Βασική</em> επειδή δεν απαιτεί άδεια ανάγνωσης και αλλαγής δεδομένων. Εάν εμπιστεύεστε το AdBlockify, μπορείτε να του δώσετε ευρεία άδεια να διαβάζει και να αλλάζει δεδομένα σε όλους τους ιστότοπους, προκειμένου να ενεργοποιηθούν πιο προηγμένες δυνατότητες φιλτραρίσματος για όλους τους ιστότοπους από προεπιλογή.",
     "description": "Descriptive text shown at first install time only "
   },
   "defaultFilteringModeSectionLabel": {

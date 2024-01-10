@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "uBlock Origin Lite",
+    "message": "AdBlockify",
     "description": "extension name."
   },
   "extShortDesc": {
@@ -12,15 +12,15 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "dashboardName": {
-    "message": "uBO Lite — ダッシュボード",
-    "description": "English: uBO Lite — Dashboard"
+    "message": "AdBlockify — ダッシュボード",
+    "description": "English: AdBlockify - Dashboard"
   },
   "settingsPageName": {
     "message": "設定",
     "description": "appears as tab name in dashboard"
   },
   "aboutPageName": {
-    "message": "uBO Lite について",
+    "message": "AdBlockify について",
     "description": "appears as tab name in dashboard"
   },
   "aboutPrivacyPolicy": {
@@ -104,7 +104,7 @@
     "description": "The header text for the welcome message section"
   },
   "firstRunDescription": {
-    "message": "uBO Lite のインストールが完了しました。すべてのサイトに適用するデフォルトのフィルタリングモードを選んでください。\n\nデフォルトでは、データの読み書きの権限が必要ない<em>基本</em>モードが選択されています。 uBO Lite を信用してもらえるなら、データの読み書きや変更の権限を許可してもらえればすべてのサイトに対してより詳細なフィルタリングを有効化できます。",
+    "message": "AdBlockify のインストールが完了しました。すべてのサイトに適用するデフォルトのフィルタリングモードを選んでください。\n\nデフォルトでは、データの読み書きの権限が必要ない<em>基本</em>モードが選択されています。 AdBlockify を信用してもらえるなら、データの読み書きや変更の権限を許可してもらえればすべてのサイトに対してより詳細なフィルタリングを有効化できます。",
     "description": "Descriptive text shown at first install time only "
   },
   "defaultFilteringModeSectionLabel": {

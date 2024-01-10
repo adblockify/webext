@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "uBlock Origin Lite",
+    "message": "AdBlockify",
     "description": "extension name."
   },
   "extShortDesc": {
@@ -12,8 +12,8 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "dashboardName": {
-    "message": "uBO Lite — Paneli i kontrollit",
-    "description": "English: uBO Lite — Dashboard"
+    "message": "AdBlockify — Paneli i kontrollit",
+    "description": "English: AdBlockify - Dashboard"
   },
   "settingsPageName": {
     "message": "Parametrat",
@@ -104,7 +104,7 @@
     "description": "The header text for the welcome message section"
   },
   "firstRunDescription": {
-    "message": "Sapo instaluat uBO Lite. Këtu mund të zgjidhni mënyrën e filtrimit që duhet përdorur për të gjitha uebsajtet.\n\n<em>E thjeshta</em> është mënyra standarde, sepse nuk ju merret leje për leximin dhe modifikimin e të dhënave. Nëse keni besim te uBO Lite, mund t'i jepni leje shtesë për leximin dhe modifikimin e të dhënave në të gjitha uebsajtet, në mënyrë që të kryeni një filtrim më të avancuar.",
+    "message": "Sapo instaluat AdBlockify. Këtu mund të zgjidhni mënyrën e filtrimit që duhet përdorur për të gjitha uebsajtet.\n\n<em>E thjeshta</em> është mënyra standarde, sepse nuk ju merret leje për leximin dhe modifikimin e të dhënave. Nëse keni besim te AdBlockify, mund t'i jepni leje shtesë për leximin dhe modifikimin e të dhënave në të gjitha uebsajtet, në mënyrë që të kryeni një filtrim më të avancuar.",
     "description": "Descriptive text shown at first install time only "
   },
   "defaultFilteringModeSectionLabel": {

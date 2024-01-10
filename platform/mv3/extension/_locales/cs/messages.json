@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "uBlock Origin Lite",
+    "message": "AdBlockify",
     "description": "extension name."
   },
   "extShortDesc": {
@@ -12,8 +12,8 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "dashboardName": {
-    "message": "uBO Lite — Ovládací panel",
-    "description": "English: uBO Lite — Dashboard"
+    "message": "AdBlockify — Ovládací panel",
+    "description": "English: AdBlockify - Dashboard"
   },
   "settingsPageName": {
     "message": "Nastavení",
@@ -104,7 +104,7 @@
     "description": "The header text for the welcome message section"
   },
   "firstRunDescription": {
-    "message": "Právě jste nainstalovali uBO Lite. Zde si můžete vybrat výchozí režim filtrování pro použití na všech webových stránkách.\n\nVe výchozím nastavení je vybrán režim <em>Základní</em>, protože nevyžaduje oprávnění ke čtení a změně dat. Pokud důvěřujete uBO Lite, můžete mu udělit široké oprávnění číst a měnit data na všech webových stránkách, abyste ve výchozím nastavení povolili pokročilejší možnosti filtrování pro všechny webové stránky.",
+    "message": "Právě jste nainstalovali AdBlockify. Zde si můžete vybrat výchozí režim filtrování pro použití na všech webových stránkách.\n\nVe výchozím nastavení je vybrán režim <em>Základní</em>, protože nevyžaduje oprávnění ke čtení a změně dat. Pokud důvěřujete AdBlockify, můžete mu udělit široké oprávnění číst a měnit data na všech webových stránkách, abyste ve výchozím nastavení povolili pokročilejší možnosti filtrování pro všechny webové stránky.",
     "description": "Descriptive text shown at first install time only "
   },
   "defaultFilteringModeSectionLabel": {

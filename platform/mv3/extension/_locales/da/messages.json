@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "uBlock Origin Lite",
+    "message": "AdBlockify",
     "description": "extension name."
   },
   "extShortDesc": {
@@ -12,8 +12,8 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "dashboardName": {
-    "message": "uBO Lite — Kontrolpanel",
-    "description": "English: uBO Lite — Dashboard"
+    "message": "AdBlockify — Kontrolpanel",
+    "description": "English: AdBlockify - Dashboard"
   },
   "settingsPageName": {
     "message": "Indstillinger",
@@ -104,7 +104,7 @@
     "description": "The header text for the welcome message section"
   },
   "firstRunDescription": {
-    "message": "Du har netop installeret uBO Lite. Her kan den standardfiltreringstilstand vælges, der skal bruges på alle websteder.\n\nStandardvalget er <em>Basis</em>-tilstand, da den ikke kræver tilladelse til at læse og ændre data. Er uBO Lite betroet, kan den udvidede tilladelse til at læse og ændre data på alle websteder tildeles for som standard at aktivere mere avancerede filtreringsfunktioner for alle websteder.",
+    "message": "Du har netop installeret AdBlockify. Her kan den standardfiltreringstilstand vælges, der skal bruges på alle websteder.\n\nStandardvalget er <em>Basis</em>-tilstand, da den ikke kræver tilladelse til at læse og ændre data. Er AdBlockify betroet, kan den udvidede tilladelse til at læse og ændre data på alle websteder tildeles for som standard at aktivere mere avancerede filtreringsfunktioner for alle websteder.",
     "description": "Descriptive text shown at first install time only "
   },
   "defaultFilteringModeSectionLabel": {

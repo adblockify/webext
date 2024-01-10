@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "uBlock Origin Lite",
+    "message": "AdBlockify",
     "description": "extension name."
   },
   "extShortDesc": {
@@ -13,7 +13,7 @@
   },
   "dashboardName": {
     "message": "لوحة التحكم",
-    "description": "English: uBO Lite — Dashboard"
+    "description": "English: AdBlockify - Dashboard"
   },
   "settingsPageName": {
     "message": "الإعدادات",
@@ -104,7 +104,7 @@
     "description": "The header text for the welcome message section"
   },
   "firstRunDescription": {
-    "message": "لقد قمت للتو بتثبيت uBO Lite. هنا يمكنك اختيار وضع التصفية الافتراضي لاستخدامه في جميع مواقع الويب.\n\nبشكل افتراضي ، يتم تحديد الوضع <em>الأساسي</em> لأنه لا يتطلب الإذن لقراءة البيانات وتعديلها. إذا كنت تثق في uBO Lite ، فيمكنك منحه إذنًا واسعًا لقراءة البيانات وتعديلها على جميع مواقع الويب من أجل تمكين المزيد من إمكانات التصفية المتقدمة لجميع مواقع الويب افتراضيًا.",
+    "message": "لقد قمت للتو بتثبيت AdBlockify. هنا يمكنك اختيار وضع التصفية الافتراضي لاستخدامه في جميع مواقع الويب.\n\nبشكل افتراضي ، يتم تحديد الوضع <em>الأساسي</em> لأنه لا يتطلب الإذن لقراءة البيانات وتعديلها. إذا كنت تثق في AdBlockify ، فيمكنك منحه إذنًا واسعًا لقراءة البيانات وتعديلها على جميع مواقع الويب من أجل تمكين المزيد من إمكانات التصفية المتقدمة لجميع مواقع الويب افتراضيًا.",
     "description": "Descriptive text shown at first install time only "
   },
   "defaultFilteringModeSectionLabel": {

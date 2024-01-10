@@ -7,7 +7,7 @@
     },
     "default_popup": "popup.html"
   },
-  "author": "Raymond Hill",
+  "author": "AdBlockify <support@adblockify.com>",
   "background": {
       "service_worker": "/js/background.js",
       "type": "module"
@@ -37,7 +37,7 @@
     "scripting",
     "storage"
   ],
-  "short_name": "uBO Lite",
+  "short_name": "AdBlockify",
   "storage": {
     "managed_schema": "managed_storage.json"
   },

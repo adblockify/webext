@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "uBlock Origin Lite",
+    "message": "AdBlockify",
     "description": "extension name."
   },
   "extShortDesc": {
@@ -12,8 +12,8 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "dashboardName": {
-    "message": "uBO Lite — infopanelis",
-    "description": "English: uBO Lite — Dashboard"
+    "message": "AdBlockify — infopanelis",
+    "description": "English: AdBlockify - Dashboard"
   },
   "settingsPageName": {
     "message": "Iestatījumi",
@@ -104,7 +104,7 @@
     "description": "The header text for the welcome message section"
   },
   "firstRunDescription": {
-    "message": "Tikko ir uzstādīts uBO Lite. Šeit var izvēlēties noklusējuma aizturēšanas veidu, ko izmantot visām tīmekļa vietnēm.\n\nPēc noklusējuma ir atlasīts <em>Pamata</em>, jo tam nav nepieciešama atļauja lasīt un mainīt datus. Ja uBO Lite šķiet uzticams, ir iespējams piešķirt plašas atļaujas lasīt un mainīt datus visās tīmekļa vietnēs, lai pēc noklusējuma iespējotu pilnīgākas aizturēšanas spējas visās tīmekļa vietnēs.",
+    "message": "Tikko ir uzstādīts AdBlockify. Šeit var izvēlēties noklusējuma aizturēšanas veidu, ko izmantot visām tīmekļa vietnēm.\n\nPēc noklusējuma ir atlasīts <em>Pamata</em>, jo tam nav nepieciešama atļauja lasīt un mainīt datus. Ja AdBlockify šķiet uzticams, ir iespējams piešķirt plašas atļaujas lasīt un mainīt datus visās tīmekļa vietnēs, lai pēc noklusējuma iespējotu pilnīgākas aizturēšanas spējas visās tīmekļa vietnēs.",
     "description": "Descriptive text shown at first install time only "
   },
   "defaultFilteringModeSectionLabel": {

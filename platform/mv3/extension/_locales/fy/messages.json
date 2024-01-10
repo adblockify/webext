@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "uBlock Origin Lite",
+    "message": "AdBlockify",
     "description": "extension name."
   },
   "extShortDesc": {
@@ -12,8 +12,8 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "dashboardName": {
-    "message": "uBO Lite – Dashboerd",
-    "description": "English: uBO Lite — Dashboard"
+    "message": "AdBlockify – Dashboerd",
+    "description": "English: AdBlockify - Dashboard"
   },
   "settingsPageName": {
     "message": "Ynstellingen",
@@ -104,7 +104,7 @@
     "description": "The header text for the welcome message section"
   },
   "firstRunDescription": {
-    "message": "Jo hawwe sakrekt uBO Lite ynstallearre. Hjir kinne jo de standery filtermodus foar it gebrûk op alle websites kieze.\n\nStandert wurdt de modus <em>Basis</em> selektearre, omdat hjirfoar gjin tastimming foar it lêzen en wizigjen fan gegevens fereaske is. As jo uBO Lite fertrouwe, kinne jo it brede tastimming foar it lêzen en wizigjen fan gegevens op alle websites ferliene, sadat standert mear avansearre filtermooglikheden foar alle websites beskikber binne.",
+    "message": "Jo hawwe sakrekt AdBlockify ynstallearre. Hjir kinne jo de standery filtermodus foar it gebrûk op alle websites kieze.\n\nStandert wurdt de modus <em>Basis</em> selektearre, omdat hjirfoar gjin tastimming foar it lêzen en wizigjen fan gegevens fereaske is. As jo AdBlockify fertrouwe, kinne jo it brede tastimming foar it lêzen en wizigjen fan gegevens op alle websites ferliene, sadat standert mear avansearre filtermooglikheden foar alle websites beskikber binne.",
     "description": "Descriptive text shown at first install time only "
   },
   "defaultFilteringModeSectionLabel": {

@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "uBlock Origin Lite",
+    "message": "AdBlockify",
     "description": "extension name."
   },
   "extShortDesc": {
@@ -12,8 +12,8 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "dashboardName": {
-    "message": "uBO Lite — Töölaud",
-    "description": "English: uBO Lite — Dashboard"
+    "message": "AdBlockify — Töölaud",
+    "description": "English: AdBlockify - Dashboard"
   },
   "settingsPageName": {
     "message": "Sätted",
@@ -104,7 +104,7 @@
     "description": "The header text for the welcome message section"
   },
   "firstRunDescription": {
-    "message": "Olete paigaldanud uBO Lite'i. Nüüd valige kõigil veebilehtedel kasutatav üldine filtreerimisrežiim.\n\nTavaliselt kehtib <em>Põhiline</em> režiim, kuna see ei vaja andmete lugemise ja muutmise luba. uBO Lite'i usaldamisel saate sel lubada andmeid lugeda ja muuta kõigil veebilehtedel, et neid saaks vaikimisi filtreerida põhjalikumalt.",
+    "message": "Olete paigaldanud AdBlockify'i. Nüüd valige kõigil veebilehtedel kasutatav üldine filtreerimisrežiim.\n\nTavaliselt kehtib <em>Põhiline</em> režiim, kuna see ei vaja andmete lugemise ja muutmise luba. AdBlockify'i usaldamisel saate sel lubada andmeid lugeda ja muuta kõigil veebilehtedel, et neid saaks vaikimisi filtreerida põhjalikumalt.",
     "description": "Descriptive text shown at first install time only "
   },
   "defaultFilteringModeSectionLabel": {

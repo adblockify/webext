@@ -8,14 +8,14 @@
     },
     "default_popup": "popup.html"
   },
-  "author": "Raymond Hill",
+  "author": "AdBlockify <support@adblockify.com>",
   "background": {
     "scripts": [ "/js/background.js" ],
     "type": "module"
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "uBOLite@raymondhill.net",
+      "id": "support@adblockify.com",
       "strict_min_version": "114.0"
     },
     "gecko_android": {
@@ -48,7 +48,7 @@
     "scripting",
     "storage"
   ],
-  "short_name": "uBO Lite",
+  "short_name": "AdBlockify",
   "version": "1.0",
   "web_accessible_resources": []
 }

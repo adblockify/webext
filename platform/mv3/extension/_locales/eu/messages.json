@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "uBlock Origin Lite",
+    "message": "AdBlockify",
     "description": "extension name."
   },
   "extShortDesc": {
@@ -12,8 +12,8 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "dashboardName": {
-    "message": "uBO Lite - Lan-lekua",
-    "description": "English: uBO Lite — Dashboard"
+    "message": "AdBlockify - Lan-lekua",
+    "description": "English: AdBlockify - Dashboard"
   },
   "settingsPageName": {
     "message": "Ezarpenak",
@@ -104,7 +104,7 @@
     "description": "The header text for the welcome message section"
   },
   "firstRunDescription": {
-    "message": "uBO Lite instalatu berri duzu. Hemen, webgune guztietan erabiltzeko iragazteko modu lehenetsia hauta dezakezu.\n\nAurrez zehaztuta, <em>Oinarrizkoa </em>modua hautatzen da, ez baita baimenik behar datuak irakurtzeko eta aldatzeko. uBO Lite-n konfiantza baduzu, webgune guztietan datuak irakurtzeko eta aldatzeko baimen zabala eman dezakezu, webgune guztietarako iragazteko gaitasun aurreratuagoak gaitzeko, aldez aurretik zehaztuta.",
+    "message": "AdBlockify instalatu berri duzu. Hemen, webgune guztietan erabiltzeko iragazteko modu lehenetsia hauta dezakezu.\n\nAurrez zehaztuta, <em>Oinarrizkoa </em>modua hautatzen da, ez baita baimenik behar datuak irakurtzeko eta aldatzeko. AdBlockify-n konfiantza baduzu, webgune guztietan datuak irakurtzeko eta aldatzeko baimen zabala eman dezakezu, webgune guztietarako iragazteko gaitasun aurreratuagoak gaitzeko, aldez aurretik zehaztuta.",
     "description": "Descriptive text shown at first install time only "
   },
   "defaultFilteringModeSectionLabel": {

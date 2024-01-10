@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "uBlock Origin Lite",
+    "message": "AdBlockify",
     "description": "extension name."
   },
   "extShortDesc": {
@@ -12,8 +12,8 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "dashboardName": {
-    "message": "uBO Lite — Dashboard",
-    "description": "English: uBO Lite — Dashboard"
+    "message": "AdBlockify - Dashboard",
+    "description": "English: AdBlockify - Dashboard"
   },
   "settingsPageName": {
     "message": "Mga Setting",
@@ -104,7 +104,7 @@
     "description": "The header text for the welcome message section"
   },
   "firstRunDescription": {
-    "message": "Maligayang pagdating sa uBO Lite. Dito mo mapipili ang default na mode sa pagfi-filter para sa lahat ng mga website.\n\nAng default na mode ay <em>Basic</em> dahil hindi nito kailangan ng karagdagang pahintulot na magbasa at magbago ng datos. Pwede mong pahintulutan ang uBO Lite, kung nagtitiwala ka sa amin, na basahin at baguhin ang data ng lahat ng mga website para sa karagdagang kakayahan sa pagfi-filter.",
+    "message": "Maligayang pagdating sa AdBlockify. Dito mo mapipili ang default na mode sa pagfi-filter para sa lahat ng mga website.\n\nAng default na mode ay <em>Basic</em> dahil hindi nito kailangan ng karagdagang pahintulot na magbasa at magbago ng datos. Pwede mong pahintulutan ang AdBlockify, kung nagtitiwala ka sa amin, na basahin at baguhin ang data ng lahat ng mga website para sa karagdagang kakayahan sa pagfi-filter.",
     "description": "Descriptive text shown at first install time only "
   },
   "defaultFilteringModeSectionLabel": {

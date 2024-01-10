@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "uBlock Origin Lite",
+    "message": "AdBlockify",
     "description": "extension name."
   },
   "extShortDesc": {
@@ -12,8 +12,8 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "dashboardName": {
-    "message": "uBO Lite — Panou de control",
-    "description": "English: uBO Lite — Dashboard"
+    "message": "AdBlockify — Panou de control",
+    "description": "English: AdBlockify - Dashboard"
   },
   "settingsPageName": {
     "message": "Opțiuni",
@@ -104,7 +104,7 @@
     "description": "The header text for the welcome message section"
   },
   "firstRunDescription": {
-    "message": "Tocmai ați instalat uBO Lite. Aici puteți alege modul de filtrare implicit pe toate site-urile.\n\nImplicit, modul de <em>bază</em> este selectat întrucât nu necesită permisiuni pentru a citi și modifica date. Dacă aveți încredere în uBO Lite, puteți să-i acordați permisiuni sporite pentru a citi și modifica datele tututor sitte-rilor pentru a activa capabilități mai avansate de filtrare.",
+    "message": "Tocmai ați instalat AdBlockify. Aici puteți alege modul de filtrare implicit pe toate site-urile.\n\nImplicit, modul de <em>bază</em> este selectat întrucât nu necesită permisiuni pentru a citi și modifica date. Dacă aveți încredere în AdBlockify, puteți să-i acordați permisiuni sporite pentru a citi și modifica datele tututor sitte-rilor pentru a activa capabilități mai avansate de filtrare.",
     "description": "Descriptive text shown at first install time only "
   },
   "defaultFilteringModeSectionLabel": {

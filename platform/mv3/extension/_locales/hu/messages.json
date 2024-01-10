@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "uBlock Origin Lite",
+    "message": "AdBlockify",
     "description": "extension name."
   },
   "extShortDesc": {
@@ -12,8 +12,8 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "dashboardName": {
-    "message": "uBO Lite — Vezérlőpult",
-    "description": "English: uBO Lite — Dashboard"
+    "message": "AdBlockify — Vezérlőpult",
+    "description": "English: AdBlockify - Dashboard"
   },
   "settingsPageName": {
     "message": "Beállítások",
@@ -104,7 +104,7 @@
     "description": "The header text for the welcome message section"
   },
   "firstRunDescription": {
-    "message": "Alapértelmezés szerint az <em>Alap</em> mód van kiválasztva, mert nem igényel engedélyt az adatok olvasásához és módosításához. Ha megbízik az uBO Lite-ban, széles körű engedélyt adhat neki az adatok olvasására és módosítására az összes webhelyen, hogy alapértelmezés szerint fejlettebb szűrési lehetőségeket tegyen lehetővé minden webhelyen.",
+    "message": "Alapértelmezés szerint az <em>Alap</em> mód van kiválasztva, mert nem igényel engedélyt az adatok olvasásához és módosításához. Ha megbízik az AdBlockify-ban, széles körű engedélyt adhat neki az adatok olvasására és módosítására az összes webhelyen, hogy alapértelmezés szerint fejlettebb szűrési lehetőségeket tegyen lehetővé minden webhelyen.",
     "description": "Descriptive text shown at first install time only "
   },
   "defaultFilteringModeSectionLabel": {

@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "uBlock Origin Lite",
+    "message": "AdBlockify",
     "description": "extension name."
   },
   "extShortDesc": {
@@ -12,8 +12,8 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "dashboardName": {
-    "message": "uBO Lite — nadzorna ploča",
-    "description": "English: uBO Lite — Dashboard"
+    "message": "AdBlockify — nadzorna ploča",
+    "description": "English: AdBlockify - Dashboard"
   },
   "settingsPageName": {
     "message": "Postavke",
@@ -104,7 +104,7 @@
     "description": "The header text for the welcome message section"
   },
   "firstRunDescription": {
-    "message": "Upravo ste instalirali uBO Lite. Ovdje možete odabrati zadani način filtriranja za korištenje na svim web stranicama.\n\nPrema zadanim postavkama odabran je način rada <em>Osnovni</em> jer ne zahtijeva dopuštenje za čitanje i promjenu podataka. Ako vjerujete uBO Liteu, možete mu dati široko dopuštenje za čitanje i promjenu podataka na svim web stranicama kako biste prema zadanim postavkama omogućili naprednije mogućnosti filtriranja za sva web mjesta.",
+    "message": "Upravo ste instalirali AdBlockify. Ovdje možete odabrati zadani način filtriranja za korištenje na svim web stranicama.\n\nPrema zadanim postavkama odabran je način rada <em>Osnovni</em> jer ne zahtijeva dopuštenje za čitanje i promjenu podataka. Ako vjerujete AdBlockifyu, možete mu dati široko dopuštenje za čitanje i promjenu podataka na svim web stranicama kako biste prema zadanim postavkama omogućili naprednije mogućnosti filtriranja za sva web mjesta.",
     "description": "Descriptive text shown at first install time only "
   },
   "defaultFilteringModeSectionLabel": {

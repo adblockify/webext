@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "uBlock Origin Lite",
+    "message": "AdBlockify",
     "description": "extension name."
   },
   "extShortDesc": {
@@ -12,8 +12,8 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "dashboardName": {
-    "message": "uBO Lite — Hallintapaneeli",
-    "description": "English: uBO Lite — Dashboard"
+    "message": "AdBlockify — Hallintapaneeli",
+    "description": "English: AdBlockify - Dashboard"
   },
   "settingsPageName": {
     "message": "Asetukset",
@@ -104,7 +104,7 @@
     "description": "The header text for the welcome message section"
   },
   "firstRunDescription": {
-    "message": "Olet juuri asentanut uBO Liten. Tästä voit valita kaikilla sivustoilla oletusarvoisesti käytettävän suodatustilan.\n\nOletusarvoinen valinta on <em>Perus</em>-tila, koska se ei vaadi tietojen luku- ja muokkausoikeutta. Jos luotat uBO Liteen, voit myöntää sille kaikki sivustot kattavan laajan tietojen luku- ja muokkausoikeuden, jolloin edistyneemmät suodatusominaisuudet ovat oletusarvoisesti käytössä kaikilla sivustoilla.",
+    "message": "Olet juuri asentanut AdBlockifyn. Tästä voit valita kaikilla sivustoilla oletusarvoisesti käytettävän suodatustilan.\n\nOletusarvoinen valinta on <em>Perus</em>-tila, koska se ei vaadi tietojen luku- ja muokkausoikeutta. Jos luotat AdBlockifyen, voit myöntää sille kaikki sivustot kattavan laajan tietojen luku- ja muokkausoikeuden, jolloin edistyneemmät suodatusominaisuudet ovat oletusarvoisesti käytössä kaikilla sivustoilla.",
     "description": "Descriptive text shown at first install time only "
   },
   "defaultFilteringModeSectionLabel": {

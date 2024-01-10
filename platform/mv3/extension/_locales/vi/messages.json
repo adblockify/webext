@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "uBlock Origin Lite",
+    "message": "AdBlockify",
     "description": "extension name."
   },
   "extShortDesc": {
@@ -12,8 +12,8 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "dashboardName": {
-    "message": "uBO Lite — Bảng điều khiển",
-    "description": "English: uBO Lite — Dashboard"
+    "message": "AdBlockify — Bảng điều khiển",
+    "description": "English: AdBlockify - Dashboard"
   },
   "settingsPageName": {
     "message": "Cài đặt",
@@ -104,7 +104,7 @@
     "description": "The header text for the welcome message section"
   },
   "firstRunDescription": {
-    "message": "Bạn vừa cài đặt uBO Lite. Bạn có thể chọn chế độ của bộ lọc mặc định để sử dụng trên tất cả các trang web. Theo mặc định, chế độ <em>Cơ bản</em> được chọn vì chế độ này không yêu cầu quyền đọc và thay đổi dữ liệu. Nếu bạn tin tưởng uBO Lite, bạn có thể cấp cho bộ lọc với quyền rộng rãi để đọc và thay đổi dữ liệu trên tất cả các trang web để kích hoạt khả năng lọc nâng cao hơn cho tất cả các trang web theo mặc định.",
+    "message": "Bạn vừa cài đặt AdBlockify. Bạn có thể chọn chế độ của bộ lọc mặc định để sử dụng trên tất cả các trang web. Theo mặc định, chế độ <em>Cơ bản</em> được chọn vì chế độ này không yêu cầu quyền đọc và thay đổi dữ liệu. Nếu bạn tin tưởng AdBlockify, bạn có thể cấp cho bộ lọc với quyền rộng rãi để đọc và thay đổi dữ liệu trên tất cả các trang web để kích hoạt khả năng lọc nâng cao hơn cho tất cả các trang web theo mặc định.",
     "description": "Descriptive text shown at first install time only "
   },
   "defaultFilteringModeSectionLabel": {

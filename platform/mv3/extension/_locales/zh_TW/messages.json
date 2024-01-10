@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "uBlock Origin Lite",
+    "message": "AdBlockify",
     "description": "extension name."
   },
   "extShortDesc": {
@@ -12,8 +12,8 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "dashboardName": {
-    "message": "uBO Lite — 控制台",
-    "description": "English: uBO Lite — Dashboard"
+    "message": "AdBlockify — 控制台",
+    "description": "English: AdBlockify - Dashboard"
   },
   "settingsPageName": {
     "message": "設定",
@@ -104,7 +104,7 @@
     "description": "The header text for the welcome message section"
   },
   "firstRunDescription": {
-    "message": "您剛安裝了 uBO Lite。您可以在此處選擇要在所有網站上使用的預設過濾模式。\n\n預設情況下將會選取<em>基礎</em>模式，因為其不需要讀取與變更資料的權限。若您信任 uBO Lite，您可以給予其讀取並變更在所有網站上資料的廣泛權限，以便為所有網站啟用更進階的過濾功能。",
+    "message": "您剛安裝了 AdBlockify。您可以在此處選擇要在所有網站上使用的預設過濾模式。\n\n預設情況下將會選取<em>基礎</em>模式，因為其不需要讀取與變更資料的權限。若您信任 AdBlockify，您可以給予其讀取並變更在所有網站上資料的廣泛權限，以便為所有網站啟用更進階的過濾功能。",
     "description": "Descriptive text shown at first install time only "
   },
   "defaultFilteringModeSectionLabel": {

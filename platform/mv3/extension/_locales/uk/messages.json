@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "uBlock Origin Lite",
+    "message": "AdBlockify",
     "description": "extension name."
   },
   "extShortDesc": {
@@ -12,8 +12,8 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "dashboardName": {
-    "message": "uBO Lite — Панель керування",
-    "description": "English: uBO Lite — Dashboard"
+    "message": "AdBlockify — Панель керування",
+    "description": "English: AdBlockify - Dashboard"
   },
   "settingsPageName": {
     "message": "Налаштування",
@@ -104,7 +104,7 @@
     "description": "The header text for the welcome message section"
   },
   "firstRunDescription": {
-    "message": "Ви щойно встановили uBO Lite. Тут ви можете вибрати режим фільтрації за замовчуванням, який буде використовуватися на всіх вебсайтах.\n\nЗа замовчуванням вибрано <em>Базовий</em> режим, оскільки він не вимагає дозволу на читання та зміну даних. Якщо ви довіряєте uBO Lite, ви можете надати йому широкий дозвіл на читання та зміну даних на всіх вебсайтах, щоб увімкнути більш розширені можливості фільтрації для всіх вебсайтів за замовчуванням.\n",
+    "message": "Ви щойно встановили AdBlockify. Тут ви можете вибрати режим фільтрації за замовчуванням, який буде використовуватися на всіх вебсайтах.\n\nЗа замовчуванням вибрано <em>Базовий</em> режим, оскільки він не вимагає дозволу на читання та зміну даних. Якщо ви довіряєте AdBlockify, ви можете надати йому широкий дозвіл на читання та зміну даних на всіх вебсайтах, щоб увімкнути більш розширені можливості фільтрації для всіх вебсайтів за замовчуванням.\n",
     "description": "Descriptive text shown at first install time only "
   },
   "defaultFilteringModeSectionLabel": {

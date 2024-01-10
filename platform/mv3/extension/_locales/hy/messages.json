@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "uBlock Origin Lite",
+    "message": "AdBlockify",
     "description": "extension name."
   },
   "extShortDesc": {
@@ -12,8 +12,8 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "dashboardName": {
-    "message": "uBO Lite — Կառավահան",
-    "description": "English: uBO Lite — Dashboard"
+    "message": "AdBlockify — Կառավահան",
+    "description": "English: AdBlockify - Dashboard"
   },
   "settingsPageName": {
     "message": "Կարգավորումներ",
@@ -104,7 +104,7 @@
     "description": "The header text for the welcome message section"
   },
   "firstRunDescription": {
-    "message": "Դուք հենց նոր տեղադրեցիք uBO Lite-ը։ Այստեղ Դուք կարող եք զտման ստանդարտ ռեժիմ ընտրել բոլոր կայքերի համար։\n\nԼռելյայն կերպով ընտրված է <em>հիմնական</em> ռեժիմը, քանի որ այն չի պահանջում տվյալների ընթերցման և փոփոխման թույլտվություն։ Եթե վստահում եք uBO Lite-ին, կարող եք տալ դրան բոլոր կայքերում տվյալների ընթերցման և փոփոխման լայն իրավունքներ՝ բոլոր կայքերի համար զտման ավելի առաջադեմ հնարավորությունները լռելյայն կերպով միացնելու համար։",
+    "message": "Դուք հենց նոր տեղադրեցիք AdBlockify-ը։ Այստեղ Դուք կարող եք զտման ստանդարտ ռեժիմ ընտրել բոլոր կայքերի համար։\n\nԼռելյայն կերպով ընտրված է <em>հիմնական</em> ռեժիմը, քանի որ այն չի պահանջում տվյալների ընթերցման և փոփոխման թույլտվություն։ Եթե վստահում եք AdBlockify-ին, կարող եք տալ դրան բոլոր կայքերում տվյալների ընթերցման և փոփոխման լայն իրավունքներ՝ բոլոր կայքերի համար զտման ավելի առաջադեմ հնարավորությունները լռելյայն կերպով միացնելու համար։",
     "description": "Descriptive text shown at first install time only "
   },
   "defaultFilteringModeSectionLabel": {

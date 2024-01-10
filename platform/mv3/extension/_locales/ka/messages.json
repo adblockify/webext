@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "uBlock Origin Lite",
+    "message": "AdBlockify",
     "description": "extension name."
   },
   "extShortDesc": {
@@ -12,8 +12,8 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "dashboardName": {
-    "message": "uBO Lite — მაჩვენებლები",
-    "description": "English: uBO Lite — Dashboard"
+    "message": "AdBlockify — მაჩვენებლები",
+    "description": "English: AdBlockify - Dashboard"
   },
   "settingsPageName": {
     "message": "პარამეტრები",
@@ -104,7 +104,7 @@
     "description": "The header text for the welcome message section"
   },
   "firstRunDescription": {
-    "message": "თქვენ ახლახან დააყენეთ uBO Lite. აქვე შეგიძლიათ აირჩიოთ ფილტრაციის ნაგულისხმევი რეჟიმი ყველა საიტზე გამოსაყენებლად.\n\nნაგულისხმევად <em>ძირითადი</em> რეჟიმია შერჩეული, ვინაიდან არ საჭიროებს მონაცემთა წაკითხვისა და ცვლილების ნებართვებს. თუ თქვენთვის სანდოა uBO Lite, შეგიძლიათ დართოთ მონაცემთა წაკითხვისა და შეცვლის ნება ყველა საიტზე გაუმჯობესებული ფილტრაციის ნაგულისხმევად გამოყენებისთვის.",
+    "message": "თქვენ ახლახან დააყენეთ AdBlockify. აქვე შეგიძლიათ აირჩიოთ ფილტრაციის ნაგულისხმევი რეჟიმი ყველა საიტზე გამოსაყენებლად.\n\nნაგულისხმევად <em>ძირითადი</em> რეჟიმია შერჩეული, ვინაიდან არ საჭიროებს მონაცემთა წაკითხვისა და ცვლილების ნებართვებს. თუ თქვენთვის სანდოა AdBlockify, შეგიძლიათ დართოთ მონაცემთა წაკითხვისა და შეცვლის ნება ყველა საიტზე გაუმჯობესებული ფილტრაციის ნაგულისხმევად გამოყენებისთვის.",
     "description": "Descriptive text shown at first install time only "
   },
   "defaultFilteringModeSectionLabel": {
