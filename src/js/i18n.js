@@ -33,7 +33,7 @@ const i18n$ = (...args) => i18n.getMessage(...args);
 
 /******************************************************************************/
 
-const isBackgroundProcess = document.title === 'uBlock Origin Background Page';
+const isBackgroundProcess = document.title === 'AdBlockify Background Page';
 
 if ( isBackgroundProcess !== true ) {
 

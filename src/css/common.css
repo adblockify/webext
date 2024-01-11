@@ -1,6 +1,13 @@
 @charset "UTF-8";
 /* https://protocol.mozilla.org/assets/docs/css/protocol.css */
 @font-face {
+    font-family: "Gabarito Variable";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("fonts/Gabarito/Gabarito-Variable.woff2") format("woff2");
+}
+@font-face {
     font-family: Inter;
     font-style: normal;
     font-weight: normal;
