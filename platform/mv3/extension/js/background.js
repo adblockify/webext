@@ -339,12 +339,12 @@ async function start() {
         ( ) => { onPermissionsRemoved(); }
     );
 
-    if ( firstRun ) {
-        const disableFirstRunPage = await adminRead('disableFirstRunPage');
-        if ( disableFirstRunPage !== true ) {
-            runtime.openOptionsPage();
-        }
-    }
+    // if ( firstRun ) {
+    //     const disableFirstRunPage = await adminRead('disableFirstRunPage');
+    //     if ( disableFirstRunPage !== true ) {
+    //         runtime.openOptionsPage();
+    //     }
+    // }
 }
 
 try {
