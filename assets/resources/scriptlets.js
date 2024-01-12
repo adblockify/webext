@@ -55,7 +55,10 @@ function safeSelf() {
         'Math_max': Math.max,
         'Math_min': Math.min,
         'Math_random': Math.random,
+        'Object': Object,
         'Object_defineProperty': Object.defineProperty.bind(Object),
+        'Object_fromEntries': Object.fromEntries.bind(Object),
+        'Object_getOwnPropertyDescriptor': Object.getOwnPropertyDescriptor.bind(Object),
         'RegExp': self.RegExp,
         'RegExp_test': self.RegExp.prototype.test,
         'RegExp_exec': self.RegExp.prototype.exec,
@@ -137,7 +140,7 @@ function safeSelf() {
                 }
                 return out;
             }, []);
-            return Object.fromEntries(entries);
+            return this.Object_fromEntries(entries);
         },
     };
     scriptletGlobals.set('safeSelf', safe);
@@ -534,9 +537,9 @@ function setConstantCore(
         //   Support multiple trappers for the same property.
         const trapProp = function(owner, prop, configurable, handler) {
             if ( handler.init(configurable ? owner[prop] : cValue) === false ) { return; }
-            const odesc = Object.getOwnPropertyDescriptor(owner, prop);
+            const odesc = safe.Object_getOwnPropertyDescriptor(owner, prop);
             let prevGetter, prevSetter;
-            if ( odesc instanceof Object ) {
+            if ( odesc instanceof safe.Object ) {
                 owner[prop] = cValue;
                 if ( odesc.get instanceof Function ) {
                     prevGetter = odesc.get;
@@ -589,7 +592,7 @@ function setConstantCore(
             const prop = chain.slice(0, pos);
             const v = owner[prop];
             chain = chain.slice(pos + 1);
-            if ( v instanceof Object || typeof v === 'object' && v !== null ) {
+            if ( v instanceof safe.Object || typeof v === 'object' && v !== null ) {
                 trapChain(v, chain);
                 return;
             }
@@ -604,7 +607,7 @@ function setConstantCore(
                 },
                 setter: function(a) {
                     this.v = a;
-                    if ( a instanceof Object ) {
+                    if ( a instanceof safe.Object ) {
                         trapChain(a, chain);
                     }
                 }
@@ -1476,6 +1479,24 @@ function addEventListenerDefuser(
     const rePattern = safe.patternToRegex(pattern);
     const log = shouldLog(extraArgs);
     const debug = shouldDebug(extraArgs);
+    const targetSelector = extraArgs.elements || undefined;
+    const shouldPrevent = (thisArg, type, handler) => {
+        if ( targetSelector !== undefined ) {
+            const elems = Array.from(document.querySelectorAll(targetSelector));
+            if ( elems.includes(thisArg) === false ) { return false; }
+        }
+        const matchesType = safe.RegExp_test.call(reType, type);
+        const matchesHandler = safe.RegExp_test.call(rePattern, handler);
+        const matchesEither = matchesType || matchesHandler;
+        const matchesBoth = matchesType && matchesHandler;
+        if ( log === 1 && matchesBoth || log === 2 && matchesEither || log === 3 ) {
+            safe.uboLog(`addEventListener('${type}', ${handler})`);
+        }
+        if ( debug === 1 && matchesBoth || debug === 2 && matchesEither ) {
+            debugger; // jshint ignore:line
+        }
+        return matchesBoth;
+    };
     const trapEddEventListeners = ( ) => {
         const eventListenerHandler = {
             apply: function(target, thisArg, args) {
@@ -1487,17 +1508,7 @@ function addEventListenerDefuser(
                         : String(args[1]);
                 } catch(ex) {
                 }
-                const matchesType = safe.RegExp_test.call(reType, type);
-                const matchesHandler = safe.RegExp_test.call(rePattern, handler);
-                const matchesEither = matchesType || matchesHandler;
-                const matchesBoth = matchesType && matchesHandler;
-                if ( log === 1 && matchesBoth || log === 2 && matchesEither || log === 3 ) {
-                    safe.uboLog(`addEventListener('${type}', ${handler})`);
-                }
-                if ( debug === 1 && matchesBoth || debug === 2 && matchesEither ) {
-                    debugger; // jshint ignore:line
-                }
-                if ( matchesBoth ) { return; }
+                if ( shouldPrevent(thisArg, type, handler) ) { return; }
                 return Reflect.apply(target, thisArg, args);
             },
             get(target, prop, receiver) {
@@ -1912,11 +1923,11 @@ function noFetchIf(
                         'Content-Length': text.length,
                     }
                 });
-                Object.defineProperty(response, 'url', {
+                safe.Object_defineProperty(response, 'url', {
                     value: details.url
                 });
                 if ( responseType !== '' ) {
-                    Object.defineProperty(response, 'type', {
+                    safe.Object_defineProperty(response, 'type', {
                         value: responseType
                     });
                 }
