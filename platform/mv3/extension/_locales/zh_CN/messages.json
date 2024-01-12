@@ -1,10 +1,10 @@
 {
   "extName": {
-    "message": "AdBlockify",
+    "message": "AdBlockify - Ad blocker",
     "description": "extension name."
   },
   "extShortDesc": {
-    "message": "一个不需要权限的内容屏蔽工具。安装即可屏蔽广告、跟踪器、挖矿脚本等网页内容。",
+    "message": "Remove ads, block intrusive pop-ups, analytics trackers & malicious software.",
     "description": "this will be in the Chrome web store: must be 132 characters or less"
   },
   "perRulesetStats": {

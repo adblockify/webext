@@ -1,10 +1,10 @@
 {
   "extName": {
-    "message": "AdBlockify",
+    "message": "AdBlockify - Ad blocker",
     "description": "extension name."
   },
   "extShortDesc": {
-    "message": "실험적이고 권한이 적은 콘텐츠 차단기. 광고, 추적기, 채굴기 등을 설치 직후 차단합니다.",
+    "message": "Remove ads, block intrusive pop-ups, analytics trackers & malicious software.",
     "description": "this will be in the Chrome web store: must be 132 characters or less"
   },
   "perRulesetStats": {

@@ -1,10 +1,10 @@
 {
   "extName": {
-    "message": "AdBlockify",
+    "message": "AdBlockify - Ad blocker",
     "description": "extension name."
   },
   "extShortDesc": {
-    "message": "একটি পরীক্ষামূলক, অনুমতিহীন কন্টেন্ট নিষিদ্ধকারক। বিজ্ঞাপন, অনুসরণকারী, খননকারী, এবং আরো জিনিস নিষিদ্ধ করো ইন্সটলের সাথে সাথেই।",
+    "message": "Remove ads, block intrusive pop-ups, analytics trackers & malicious software.",
     "description": "this will be in the Chrome web store: must be 132 characters or less"
   },
   "perRulesetStats": {

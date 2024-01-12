@@ -1,10 +1,10 @@
 {
   "extName": {
-    "message": "AdBlockify",
+    "message": "AdBlockify - Ad blocker",
     "description": "extension name."
   },
   "extShortDesc": {
-    "message": "Kísérleti, engedélyt nem igénylő nélküli tartalomblokkoló. A telepítés után azonnal blokkolja a hirdetéseket, nyomkövetőket, bányászokat és egyebeket.",
+    "message": "Remove ads, block intrusive pop-ups, analytics trackers & malicious software.",
     "description": "this will be in the Chrome web store: must be 132 characters or less"
   },
   "perRulesetStats": {

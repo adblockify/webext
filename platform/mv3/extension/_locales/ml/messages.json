@@ -1,10 +1,10 @@
 {
   "extName": {
-    "message": "AdBlockify",
+    "message": "AdBlockify - Ad blocker",
     "description": "extension name."
   },
   "extShortDesc": {
-    "message": "അനുമതി-കുറവ് ഉള്ളടക്ക ബ്ലോക്കർ. പരസ്യങ്ങൾ, ട്രാക്കറുകൾ, ക്രിപ്‌റ്റോ-മൈനർ എന്നിവയും മറ്റും ഇൻസ്റ്റാളുചെയ്യുമ്പോൾ ഉടനടി തടയുന്നു.",
+    "message": "Remove ads, block intrusive pop-ups, analytics trackers & malicious software.",
     "description": "this will be in the Chrome web store: must be 132 characters or less"
   },
   "perRulesetStats": {
