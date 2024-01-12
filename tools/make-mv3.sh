@@ -27,7 +27,7 @@ for i in "$@"; do
       PLATFORM="chromium"
       shift # past argument=value
       ;;
-    (uBOLite_+([0-9]).+([0-9]).+([0-9]).+([0-9]))
+    (AdBlockify_+([0-9]).+([0-9]).+([0-9]).+([0-9]))
       TAGNAME="$i"
       FULL="yes"
       shift # past argument=value
@@ -35,7 +35,7 @@ for i in "$@"; do
   esac
 done
 
-DES="dist/build/uBOLite.$PLATFORM"
+DES="dist/build/AdBlockify.$PLATFORM"
 
 if [ "$QUICK" != "yes" ]; then
     rm -rf $DES
@@ -90,7 +90,6 @@ cp platform/mv3/extension/css/* $DES/css/
 cp -R platform/mv3/extension/js/* $DES/js/
 cp platform/mv3/extension/img/* $DES/img/
 cp -R platform/mv3/extension/_locales $DES/
-cp platform/mv3/README.md $DES/
 
 if [ "$QUICK" != "yes" ]; then
     echo "*** uBOLite.mv3: Generating rulesets"
@@ -126,7 +125,7 @@ if [ "$FULL" = "yes" ]; then
     fi
     echo "*** uBOLite.mv3: Creating publishable package..."
     if [ -z "$TAGNAME" ]; then
-        TAGNAME="uBOLite_$(jq -r .version $DES/manifest.json)"
+        TAGNAME="AdBlockify_$(jq -r .version $DES/manifest.json)"
     else
         tmp=$(mktemp)
         jq --arg version "${TAGNAME:8}" '.version = $version' "$DES/manifest.json"  > "$tmp" \

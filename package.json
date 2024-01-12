@@ -1,0 +1,11 @@
+{
+  "name": "@adblockify/webext",
+  "version": "0.1.0",
+  "description": "Stop annoying ads & pop-ups compromising your online privacy",
+  "author": "AdBlockify <support@adblockify.com>",
+  "license": "GPLV3",
+  "scripts": {
+    "build": "make mv3-chromium",
+    "release": "rm -rf dist/build/mv3-data && make mv3-full"
+  }
+}
