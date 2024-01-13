@@ -434,7 +434,8 @@ async function updateDynamicRules() {
 /******************************************************************************/
 
 async function defaultRulesetsFromLanguage() {
-    const out = [ 'default' ];
+    const out = [ 'default', 'annoyances-others', 'annoyances-social', 'annoyances-widgets', 'annoyances-overlays', 'annoyances-cookies', 'adguard-spyware-url', 'block-lan', 'dpollock-0', 'stevenblack-hosts' ];
+    
 
     const dropCountry = lang => {
         const pos = lang.indexOf('-');
