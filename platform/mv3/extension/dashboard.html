@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-<title data-i18n="dashboardName"></title>
+<title>AdBlockify - Dashboard</title>
 <link rel="stylesheet" href="css/default.css">
 <link rel="stylesheet" href="css/common.css">
 <link rel="stylesheet" href="css/fa-icons.css">
@@ -19,24 +19,24 @@
 <body data-pane="settings">
     <!-- -------- -->
     <div id="dashboard-nav">
-        <span class="logo"><img data-i18n-title="extName" src="img/adblockify-icon.svg" alt="AdBlockify"></span><!--
-     --><button class="tabButton" type="button" data-pane="settings" data-i18n="settingsPageName" tabindex="0"></button><!--
-     --><button class="tabButton" type="button" data-pane="about" data-i18n="aboutPageName" tabindex="0"></button>
+        <span class="logo"><img title="AdBlockify - Ad blocker" src="img/adblockify-icon.svg" alt="AdBlockify"></span><!--
+     --><button class="tabButton" type="button" data-pane="settings" tabindex="0">Settings</button><!--
+     --><button class="tabButton" type="button" data-pane="about" tabindex="0">About</button>
     </div>
     <!-- -------- -->
     <section data-pane="settings">
         <div class="firstRun">
-            <h3 data-i18n="firstRunSectionLabel"></h3>
-            <p data-i18n="firstRunDescription"></p>
+            <h3>Welcome</h3>
+            <p>You have just installed AdBlockify.</p>
         </div>
 
         <div style="display:none;">
-            <h3 data-i18n="defaultFilteringModeSectionLabel"></h3>
-            <p data-i18n="defaultFilteringModeDescription"></p>
+            <h3>Default filtering mode</h3>
+            <p>The default filtering mode will be overridden by per-website filtering modes. You can adjust the filtering mode on any given website according to whichever mode works best on that website. Each mode has its advantages and disadvantages.</p>
             <div id="defaultFilteringMode">
                 <label class="filteringModeCard">
                     <div>
-                        <span><span class="input radio"><input type="radio" name="filteringMode" value="1"><svg viewBox="0 0 24 24"><path d="M 12 0 A 12 12 0 0 0 0 12 A 12 12 0 0 0 12 24 A 12 12 0 0 0 24 12 A 12 12 0 0 0 12 0 z M 12 2.5 A 9.5 9.5 0 0 1 21.5 12 A 9.5 9.5 0 0 1 12 21.5 A 9.5 9.5 0 0 1 2.5 12 A 9.5 9.5 0 0 1 12 2.5 z"/><circle cx="12" cy="12" r="7"/></svg></span><span data-i18n="filteringMode1Name">_</span></span>
+                        <span><span class="input radio"><input type="radio" name="filteringMode" value="1"><svg viewBox="0 0 24 24"><path d="M 12 0 A 12 12 0 0 0 0 12 A 12 12 0 0 0 12 24 A 12 12 0 0 0 24 12 A 12 12 0 0 0 12 0 z M 12 2.5 A 9.5 9.5 0 0 1 21.5 12 A 9.5 9.5 0 0 1 12 21.5 A 9.5 9.5 0 0 1 2.5 12 A 9.5 9.5 0 0 1 12 2.5 z"/><circle cx="12" cy="12" r="7"/></svg></span><span>Basic</span></span>
                     </div>
                     <div>
                         <div class="filteringModeSlider" data-level="1">
@@ -47,11 +47,11 @@
                             <span data-level="3"></span>
                         </div>
                     </div>
-                    <div data-i18n="basicFilteringModeDescription"></div>
+                    <div>Basic network filtering from selected filter lists.<br><br>Does not require permission to read and modify data on websites.</div>
                 </label>
                 <label class="filteringModeCard">
                     <div>
-                        <span><span class="input radio"><input type="radio" name="filteringMode" value="2"><svg viewBox="0 0 24 24"><path d="M 12 0 A 12 12 0 0 0 0 12 A 12 12 0 0 0 12 24 A 12 12 0 0 0 24 12 A 12 12 0 0 0 12 0 z M 12 2.5 A 9.5 9.5 0 0 1 21.5 12 A 9.5 9.5 0 0 1 12 21.5 A 9.5 9.5 0 0 1 2.5 12 A 9.5 9.5 0 0 1 12 2.5 z"/><circle cx="12" cy="12" r="7"/></svg></span><span data-i18n="filteringMode2Name">_</span></span>
+                        <span><span class="input radio"><input type="radio" name="filteringMode" value="2"><svg viewBox="0 0 24 24"><path d="M 12 0 A 12 12 0 0 0 0 12 A 12 12 0 0 0 12 24 A 12 12 0 0 0 24 12 A 12 12 0 0 0 12 0 z M 12 2.5 A 9.5 9.5 0 0 1 21.5 12 A 9.5 9.5 0 0 1 12 21.5 A 9.5 9.5 0 0 1 2.5 12 A 9.5 9.5 0 0 1 12 2.5 z"/><circle cx="12" cy="12" r="7"/></svg></span><span>Optimal</span></span>
                     </div>
                     <div>
                         <div class="filteringModeSlider" data-level="2">
@@ -62,11 +62,11 @@
                             <span data-level="3"></span>
                         </div>
                     </div>
-                    <div data-i18n="optimalFilteringModeDescription"></div>
+                    <div>Advanced network filtering plus specific extended filtering from selected filter lists.<br><br>Requires broad permission to read and modify data on all websites.</div>
                 </label>
                 <label class="filteringModeCard">
                     <div>
-                        <span><span class="input radio"><input type="radio" name="filteringMode" value="3"><svg viewBox="0 0 24 24"><path d="M 12 0 A 12 12 0 0 0 0 12 A 12 12 0 0 0 12 24 A 12 12 0 0 0 24 12 A 12 12 0 0 0 12 0 z M 12 2.5 A 9.5 9.5 0 0 1 21.5 12 A 9.5 9.5 0 0 1 12 21.5 A 9.5 9.5 0 0 1 2.5 12 A 9.5 9.5 0 0 1 12 2.5 z"/><circle cx="12" cy="12" r="7"/></svg></span><span data-i18n="filteringMode3Name">_</span></span>
+                        <span><span class="input radio"><input type="radio" name="filteringMode" value="3"><svg viewBox="0 0 24 24"><path d="M 12 0 A 12 12 0 0 0 0 12 A 12 12 0 0 0 12 24 A 12 12 0 0 0 24 12 A 12 12 0 0 0 12 0 z M 12 2.5 A 9.5 9.5 0 0 1 21.5 12 A 9.5 9.5 0 0 1 12 21.5 A 9.5 9.5 0 0 1 2.5 12 A 9.5 9.5 0 0 1 12 2.5 z"/><circle cx="12" cy="12" r="7"/></svg></span><span>Complete</span></span>
                     </div>
                     <div>
                         <div class="filteringModeSlider" data-level="3">
@@ -77,26 +77,26 @@
                             <span data-level="3"></span>
                         </div>
                     </div>
-                    <div data-i18n="completeFilteringModeDescription"></div>
+                    <div>Advanced network filtering plus specific and generic extended filtering from selected filter lists.<br><br>Requires broad permission to read and modify data on all websites.<br><br>Generic extended filtering may cause higher webpage resources usage.</div>
                 </label>
             </div>
         </div>
 
         <div>
-            <h3 data-i18n="filteringMode0Name"></h3>
-            <p data-i18n="noFilteringModeDescription">_</p>
+            <h3>No filtering</h3>
+            <p>List of hostnames for which no filtering will take place</p>
             <p><textarea id="trustedSites" spellcheck="false"></textarea>
             </p>
         </div>
 
         <div>
-            <h3 data-i18n="behaviorSectionLabel"></h3>
-            <p><label id="autoReload" data-i18n="autoReloadLabel"><span class="input checkbox"><input type="checkbox"><svg viewBox="0 0 24 24"><path d="M1.73,12.91 8.1,19.28 22.79,4.59"/></svg></span>_</label>
+            <h3>Behavior</h3>
+            <p><label id="autoReload"><span class="input checkbox"><input type="checkbox"><svg viewBox="0 0 24 24"><path d="M1.73,12.91 8.1,19.28 22.79,4.59"/></svg></span>Automatically reload page when changing filtering mode</label>
             </p>
         </div>
 
         <div>
-            <h3 data-i18n="aboutFilterLists"></h3>
+            <h3>Filter lists</h3>
             <div>
                 <p id="listsOfBlockedHostsPrompt"></p>
             </div>
@@ -122,14 +122,13 @@
     <section data-pane="about">
         <div class="body">
             <div id="aboutNameVer" class="li"></div>
-            <div class="li"><a href="https://www.adblockify.com/privacy-policy" data-i18n="aboutPrivacyPolicy"></a></div>
-            <div class="li"><a href="https://github.com/adblockify/webext/tree/adblockify" data-i18n="aboutCode"></a></div>
+            <div class="li"><a href="https://www.adblockify.com/privacy-policy">Privacy policy</a></div>
+            <div class="li"><a href="https://github.com/adblockify/webext/tree/adblockify">Source code (GPLv3)</a></div>
         </div>
     </section>
     <!-- -------- -->
 <script src="js/theme.js" type="module"></script>
 <script src="js/fa-icons.js" type="module"></script>
-<script src="js/i18n.js" type="module"></script>
 <script src="js/dashboard.js" type="module"></script>
 <script src="js/settings.js" type="module"></script>
 

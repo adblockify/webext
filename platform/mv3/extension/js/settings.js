@@ -22,7 +22,7 @@
 'use strict';
 
 import { browser, sendMessage, localRead, localWrite } from './ext.js';
-import { i18n$, i18n } from './i18n.js';
+import { i18n } from './i18n.js';
 import { dom, qs$, qsa$ } from './dom.js';
 import punycode from './punycode.js';
 
@@ -59,11 +59,21 @@ function rulesetStats(rulesetId) {
 
 /******************************************************************************/
 
+const thirdPartyGroupNames = {
+    default: 'Default',
+    ads: 'Ads',
+    privacy: 'Privacy',
+    malware: 'Malware domains',
+    annoyances: 'Annoyances',
+    misc: 'Miscellaneous',
+    regions: 'Regions, languages',
+};
+
 function renderFilterLists() {
     const { enabledRulesets, rulesetDetails } = cachedRulesetData;
     const listGroupTemplate = qs$('#templates .groupEntry');
     const listEntryTemplate = qs$('#templates .listEntry');
-    const listStatsTemplate = i18n$('perRulesetStats');
+    const listStatsTemplate = '{{ruleCount}} rules, converted from {{filterCount}} network filters';
     const groupNames = new Map([ [ 'user', '' ] ]);
 
     const liFromListEntry = function(ruleset, li, hideUnused) {
@@ -126,7 +136,7 @@ function renderFilterLists() {
             liGroup = dom.clone(listGroupTemplate);
             let groupName = groupNames.get(groupKey);
             if ( groupName === undefined ) {
-                groupName = i18n$('3pGroup' + groupKey.charAt(0).toUpperCase() + groupKey.slice(1));
+                groupName = thirdPartyGroupNames[groupKey];
                 groupNames.set(groupKey, groupName);
             }
             if ( groupName !== '' ) {
@@ -225,7 +235,7 @@ function renderWidgets() {
         ruleCount += stats.ruleCount;
         filterCount += stats.filterCount;
     }
-    dom.text('#listsOfBlockedHostsPrompt', i18n$('perRulesetStats')
+    dom.text('#listsOfBlockedHostsPrompt', '{{ruleCount}} rules, converted from {{filterCount}} network filters'
         .replace('{{ruleCount}}', ruleCount.toLocaleString())
         .replace('{{filterCount}}', filterCount.toLocaleString())
     );

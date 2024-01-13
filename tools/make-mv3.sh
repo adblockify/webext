@@ -89,7 +89,6 @@ cp platform/mv3/extension/*.json $DES/
 cp platform/mv3/extension/css/* $DES/css/
 cp -R platform/mv3/extension/js/* $DES/js/
 cp platform/mv3/extension/img/* $DES/img/
-cp -R platform/mv3/extension/_locales $DES/
 
 if [ "$QUICK" != "yes" ]; then
     echo "*** uBOLite.mv3: Generating rulesets"

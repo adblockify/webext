@@ -16,8 +16,7 @@
     "rule_resources": [
     ]
   },
-  "default_locale": "en",
-  "description": "__MSG_extShortDesc__",
+  "description": "Remove ads, block intrusive pop-ups, analytics trackers & malicious software.",
   "icons": {
     "16": "img/icon_16.png",
     "32": "img/icon_32.png",
@@ -26,7 +25,7 @@
   },
   "manifest_version": 3,
   "minimum_chrome_version": "105.0",
-  "name": "__MSG_extName__",
+  "name": "AdBlockify - Ad blocker",
   "options_page": "dashboard.html",
   "host_permissions": [
     "<all_urls>"
