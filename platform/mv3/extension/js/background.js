@@ -32,6 +32,7 @@ import {
     localRead, localWrite,
     sessionRead, sessionWrite,
     adminRead,
+    action,
 } from './ext.js';
 
 import {
@@ -345,6 +346,11 @@ async function start() {
     //         runtime.openOptionsPage();
     //     }
     // }
+
+    if (action.setBadgeBackgroundColor && action.setBadgeTextColor) {
+        chrome.action.setBadgeBackgroundColor({ color: [41, 122, 255, 255] });
+        chrome.action.setBadgeTextColor({ color: [255, 255, 255, 255] });
+    }
 }
 
 try {

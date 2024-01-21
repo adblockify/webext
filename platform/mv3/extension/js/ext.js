@@ -34,6 +34,7 @@ export const browser =
 export const dnr = browser.declarativeNetRequest;
 export const i18n = browser.i18n;
 export const runtime = browser.runtime;
+export const action = browser.action;
 
 /******************************************************************************/
 
