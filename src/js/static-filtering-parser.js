@@ -3297,10 +3297,9 @@ class ExtSelectorCompiler {
         if ( this.astHasType(parts, 'Error') ) { return; }
         if ( this.astHasType(parts, 'Selector') === false ) { return; }
         if ( this.astIsValidSelectorList(parts) === false ) { return; }
-        if (
-            this.astHasType(parts, 'ProceduralSelector') === false &&
-            this.astHasType(parts, 'ActionSelector') === false
-        ) {
+        if ( this.astHasType(parts, 'ProceduralSelector') ) {
+            if ( this.astHasType(parts, 'PseudoElementSelector') ) { return; }
+        } else if ( this.astHasType(parts, 'ActionSelector') === false ) {
             return this.astSerialize(parts);
         }
         const r = this.astCompile(parts);
@@ -4023,6 +4022,7 @@ class ExtSelectorCompiler {
     compileXpathExpression(s) {
         const r = this.unquoteString(s);
         if ( r.i !== s.length ) { return; }
+        if ( globalThis.document instanceof Object === false ) { return r.s; }
         try {
             globalThis.document.createExpression(r.s, null);
         } catch (e) {
