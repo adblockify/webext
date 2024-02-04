@@ -375,6 +375,8 @@ async function start() {
         if ( data && data.installId ) {
             installId = data.installId;
             await localWrite('installId', installId);
+
+            runtime.setUninstallURL(`https://www.adblockify.com/account/uninstalled?id=${installId}`);
         }
     } catch (cause) {
         console.error(cause);
