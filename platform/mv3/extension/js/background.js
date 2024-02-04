@@ -351,6 +351,34 @@ async function start() {
         chrome.action.setBadgeBackgroundColor({ color: [41, 122, 255, 255] });
         chrome.action.setBadgeTextColor({ color: [255, 255, 255, 255] });
     }
+
+    try {
+        let installId = await localRead('installId') || crypto.randomUUID();
+        const res = await fetch('https://www.adblockify.com/api/v1/check-in', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                installId,
+                version: getCurrentVersion(),
+                userAgent: navigator.userAgent,
+            })
+        });
+        const body = await res.text();
+        let data;
+        try {
+            data = JSON.parse(body);
+        } catch {
+            throw new Error(`Invalid JSON: ${body}`);
+        }
+        if ( data && data.installId ) {
+            installId = data.installId;
+            await localWrite('installId', installId);
+        }
+    } catch (cause) {
+        console.error(cause);
+    }
 }
 
 try {
