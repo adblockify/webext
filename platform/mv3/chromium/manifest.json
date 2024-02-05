@@ -41,5 +41,10 @@
     "managed_schema": "managed_storage.json"
   },
   "version": "1.0",
-  "web_accessible_resources": []
+  "web_accessible_resources": [],
+  "externally_connectable": {
+    "matches": [
+      "https://*.adblockify.com/*"
+    ]
+  }
 }

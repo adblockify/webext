@@ -31,7 +31,6 @@ import {
     runtime,
     localRead, localWrite,
     sessionRead, sessionWrite,
-    adminRead,
     action,
 } from './ext.js';
 
@@ -292,7 +291,18 @@ function onMessage(request, sender, callback) {
 
 /******************************************************************************/
 
+let installId;
+
+chrome.runtime.onMessageExternal.addListener(function(request, sender, sendResponse) {
+    if (request.message === 'getInstallId') {
+        sendResponse({ installId });
+    }
+    return false;
+});
+
 async function start() {
+    installId = await localRead('installId') || crypto.randomUUID()
+
     await loadRulesetConfig();
 
     if ( wakeupRun === false ) {
@@ -353,7 +363,6 @@ async function start() {
     }
 
     try {
-        let installId = await localRead('installId') || crypto.randomUUID();
         const res = await fetch('https://www.adblockify.com/api/v1/check-in', {
             method: 'POST',
             headers: {
@@ -370,7 +379,7 @@ async function start() {
         try {
             data = JSON.parse(body);
         } catch {
-            throw new Error(`Invalid JSON: ${body}`);
+            throw new Error(`Invalid JSON: "${body}"`);
         }
         if ( data && data.installId ) {
             installId = data.installId;
@@ -378,6 +387,7 @@ async function start() {
 
             runtime.setUninstallURL(`https://www.adblockify.com/account/uninstalled?id=${installId}`);
         }
+
     } catch (cause) {
         console.error(cause);
     }
