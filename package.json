@@ -6,6 +6,7 @@
   "license": "GPLV3",
   "scripts": {
     "build": "make mv3-chromium",
+    "build:quick": "make mv3-quick",
     "release": "rm -rf dist/build/mv3-data && make mv3-full"
   }
 }
