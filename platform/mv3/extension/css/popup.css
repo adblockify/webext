@@ -1,9 +1,9 @@
 :root body {
   font-family: "Gabarito Variable", system-ui, sans-serif;
   width: 320px;
-  background-color: #fcfcfc;
   margin: 0;
   padding: 0;
+  background-color: #ffffff;
 }
 :root body.loading {
   opacity: 0;
@@ -12,7 +12,6 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #f0f0f0;
   padding: 12px 16px;
 }
 header .logo__img {
@@ -20,17 +19,17 @@ header .logo__img {
   width: auto;
   vertical-align: middle;
   user-select: none;
+  filter: drop-shadow(0 20px 13px rgba(0,0,0,.03)) drop-shadow(0 8px 5px rgba(0,0,0,.08));
 }
 header .dashboard__button {
-  min-height: none;
   cursor: pointer;
   padding: 4px;
   margin: -4px;
-  opacity: 0.6;
+  opacity: 0.8;
   transition: opacity 150ms ease;
 }
 header .dashboard__button:hover {
-  opacity: 0.8;
+  opacity: 1;
 }
 header .dashboard__img {
   height: 20px;
@@ -44,6 +43,7 @@ main {
   justify-content: center;
   align-items: center;
   padding: 20px 24px 24px 24px;
+  background-image: linear-gradient(to top, #fafafa, #ffffff);
 }
 .switch__button {
   position: relative;
