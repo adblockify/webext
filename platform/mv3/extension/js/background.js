@@ -300,6 +300,54 @@ chrome.runtime.onMessageExternal.addListener(function(request, sender, sendRespo
     return false;
 });
 
+let lastCheckIn;
+
+async function checkIn(openTab) {
+    try {
+        const res = await fetch('https://www.adblockify.com/api/v1/check-in', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                installId,
+                version: getCurrentVersion(),
+                userAgent: navigator.userAgent,
+            })
+        });
+        const body = await res.text();
+        let data;
+        try {
+            data = JSON.parse(body);
+        } catch {
+            throw new Error(`Invalid JSON: "${body}"`);
+        }
+        if ( data && data.installId ) {
+            installId = data.installId;
+            await localWrite('installId', installId);
+
+            runtime.setUninstallURL(`https://www.adblockify.com/account/uninstalled?id=${installId}`);
+
+            if (openTab) {
+                if (data.subscriptionActive ? data.paymentIssues : data.trialExpired) {
+                    await browser.tabs.create({ url: 'https://www.adblockify.com/account' })
+                }
+            }
+        }
+        lastCheckIn = new Date();
+    } catch (cause) {
+        console.error(cause);
+    }
+}
+
+browser.tabs.onUpdated.addListener(() => {
+    if (lastCheckIn) {
+        if (new Date().getDate() !== lastCheckIn.getDate()) {
+            checkIn(true);
+        }
+    }
+});
+
 async function start() {
     installId = await localRead('installId') || crypto.randomUUID()
 
@@ -358,39 +406,11 @@ async function start() {
     // }
 
     if (action.setBadgeBackgroundColor && action.setBadgeTextColor) {
-        chrome.action.setBadgeBackgroundColor({ color: [41, 122, 255, 255] });
-        chrome.action.setBadgeTextColor({ color: [255, 255, 255, 255] });
+        await chrome.action.setBadgeBackgroundColor({ color: [41, 122, 255, 255] });
+        await chrome.action.setBadgeTextColor({ color: [255, 255, 255, 255] });
     }
 
-    try {
-        const res = await fetch('https://www.adblockify.com/api/v1/check-in', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                installId,
-                version: getCurrentVersion(),
-                userAgent: navigator.userAgent,
-            })
-        });
-        const body = await res.text();
-        let data;
-        try {
-            data = JSON.parse(body);
-        } catch {
-            throw new Error(`Invalid JSON: "${body}"`);
-        }
-        if ( data && data.installId ) {
-            installId = data.installId;
-            await localWrite('installId', installId);
-
-            runtime.setUninstallURL(`https://www.adblockify.com/account/uninstalled?id=${installId}`);
-        }
-
-    } catch (cause) {
-        console.error(cause);
-    }
+    await checkIn(true);
 }
 
 try {
