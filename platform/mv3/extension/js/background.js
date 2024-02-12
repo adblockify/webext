@@ -390,6 +390,10 @@ async function start() {
     //   Firefox API does not support `dnr.setExtensionActionOptions`
     if ( wakeupRun === false && dnr.setExtensionActionOptions ) {
         dnr.setExtensionActionOptions({ displayActionCountAsBadgeText: true });
+        if (action.setBadgeBackgroundColor && action.setBadgeTextColor) {
+            action.setBadgeBackgroundColor({ color: [41, 122, 255, 255] });
+            action.setBadgeTextColor({ color: [255, 255, 255, 255] });
+        }
     }
 
     runtime.onMessage.addListener(onMessage);
@@ -405,12 +409,7 @@ async function start() {
     //     }
     // }
 
-    if (action.setBadgeBackgroundColor && action.setBadgeTextColor) {
-        await chrome.action.setBadgeBackgroundColor({ color: [41, 122, 255, 255] });
-        await chrome.action.setBadgeTextColor({ color: [255, 255, 255, 255] });
-    }
-
-    await checkIn(true);
+    await checkIn(false);
 }
 
 try {
