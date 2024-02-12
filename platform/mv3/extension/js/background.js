@@ -300,8 +300,6 @@ chrome.runtime.onMessageExternal.addListener(function(request, sender, sendRespo
     return false;
 });
 
-let lastCheckIn;
-
 async function checkIn(openTab) {
     try {
         const res = await fetch('https://www.adblockify.com/api/v1/check-in', {
@@ -334,15 +332,17 @@ async function checkIn(openTab) {
                 }
             }
         }
-        lastCheckIn = new Date();
+
+        await localWrite('lastCheckIn', new Date().toISOString());
     } catch (cause) {
         console.error(cause);
     }
 }
 
-browser.tabs.onUpdated.addListener(() => {
-    if (lastCheckIn) {
-        if (new Date().getDate() !== lastCheckIn.getDate()) {
+browser.tabs.onUpdated.addListener(async () => {
+    const lastCheckInStr = await localRead('lastCheckIn');
+    if (lastCheckInStr) {
+        if (new Date().getDate() !== new Date(lastCheckInStr).getDate()) {
             checkIn(true);
         }
     }
