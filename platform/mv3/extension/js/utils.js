@@ -132,7 +132,7 @@ export const broadcastMessage = message => {
 
 const ubolLog = (...args) => {
     // Do not pollute dev console in stable release.
-    if ( browser.runtime.id === 'ddkjiahejlhfcafbddmgiahcphecmpfh' ) { return; }
+    if ( browser.runtime.id === 'cfnnkodlmhepcfjmgpmkekfnhgmaeoae' ) { return; }
     console.info('[uBOL]', ...args);
 };
 
