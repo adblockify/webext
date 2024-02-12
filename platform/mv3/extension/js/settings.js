@@ -178,26 +178,26 @@ function renderFilterLists() {
                 ruleset.id === 'default' 
             ),
         ],
-        [
-            'annoyances',
-            rulesetDetails.filter(ruleset =>
-                ruleset.group === 'annoyances'
-            ),
-        ],
-        [
-            'misc',
-            rulesetDetails.filter(ruleset =>
-                ruleset.id !== 'default' &&
-                ruleset.group === undefined &&
-                typeof ruleset.lang !== 'string' 
-            ),
-        ],
-        [
-            'regions',
-            rulesetDetails.filter(ruleset =>
-                typeof ruleset.lang === 'string' 
-            ),
-        ],
+        // [
+        //     'annoyances',
+        //     rulesetDetails.filter(ruleset =>
+        //         ruleset.group === 'annoyances'
+        //     ),
+        // ],
+        // [
+        //     'misc',
+        //     rulesetDetails.filter(ruleset =>
+        //         ruleset.id !== 'default' &&
+        //         ruleset.group === undefined &&
+        //         typeof ruleset.lang !== 'string' 
+        //     ),
+        // ],
+        // [
+        //     'regions',
+        //     rulesetDetails.filter(ruleset =>
+        //         typeof ruleset.lang === 'string' 
+        //     ),
+        // ],
     ]);
 
     dom.cl.toggle(dom.body, 'hideUnused', mustHideUnusedLists('*'));

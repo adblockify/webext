@@ -1171,131 +1171,131 @@ async function main() {
         homeURL: 'https://github.com/uBlockOrigin/uAssets',
     });
 
-    // Regional rulesets
-    const excludedLists = [
-        'ara-0',
-        'EST-0',
-    ];
-    // Merge lists which have same target languages
-    const langToListsMap = new Map();
-    for ( const [ id, asset ] of Object.entries(assets) ) {
-        if ( asset.content !== 'filters' ) { continue; }
-        if ( asset.off !== true ) { continue; }
-        if ( typeof asset.lang !== 'string' ) { continue; }
-        if ( excludedLists.includes(id) ) { continue; }
-        let ids = langToListsMap.get(asset.lang);
-        if ( ids === undefined ) {
-            langToListsMap.set(asset.lang, ids = []);
-        }
-        ids.push(id);
-    }
-    for ( const ids of langToListsMap.values() ) {
-        const urls = [];
-        for ( const id of ids ) {
-            const asset = assets[id];
-            const contentURL = Array.isArray(asset.contentURL)
-                ? asset.contentURL[0]
-                : asset.contentURL;
-            urls.push(contentURL);
-        }
-        const id = ids[0];
-        const asset = assets[id];
-        await rulesetFromURLs({
-            id: id.toLowerCase(),
-            lang: asset.lang,
-            name: asset.title,
-            enabled: false,
-            urls,
-            homeURL: asset.supportURL,
-        });
-    }
+    // // Regional rulesets
+    // const excludedLists = [
+    //     'ara-0',
+    //     'EST-0',
+    // ];
+    // // Merge lists which have same target languages
+    // const langToListsMap = new Map();
+    // for ( const [ id, asset ] of Object.entries(assets) ) {
+    //     if ( asset.content !== 'filters' ) { continue; }
+    //     if ( asset.off !== true ) { continue; }
+    //     if ( typeof asset.lang !== 'string' ) { continue; }
+    //     if ( excludedLists.includes(id) ) { continue; }
+    //     let ids = langToListsMap.get(asset.lang);
+    //     if ( ids === undefined ) {
+    //         langToListsMap.set(asset.lang, ids = []);
+    //     }
+    //     ids.push(id);
+    // }
+    // for ( const ids of langToListsMap.values() ) {
+    //     const urls = [];
+    //     for ( const id of ids ) {
+    //         const asset = assets[id];
+    //         const contentURL = Array.isArray(asset.contentURL)
+    //             ? asset.contentURL[0]
+    //             : asset.contentURL;
+    //         urls.push(contentURL);
+    //     }
+    //     const id = ids[0];
+    //     const asset = assets[id];
+    //     await rulesetFromURLs({
+    //         id: id.toLowerCase(),
+    //         lang: asset.lang,
+    //         name: asset.title,
+    //         enabled: false,
+    //         urls,
+    //         homeURL: asset.supportURL,
+    //     });
+    // }
 
-    // Handpicked rulesets from assets.json
-    const handpicked = [
-        'block-lan',
-        'dpollock-0',
-        'adguard-spyware-url',
-    ];
-    for ( const id of handpicked ) {
-        const asset = assets[id];
-        if ( asset.content !== 'filters' ) { continue; }
+    // // Handpicked rulesets from assets.json
+    // const handpicked = [
+    //     'block-lan',
+    //     'dpollock-0',
+    //     'adguard-spyware-url',
+    // ];
+    // for ( const id of handpicked ) {
+    //     const asset = assets[id];
+    //     if ( asset.content !== 'filters' ) { continue; }
 
-        const contentURL = Array.isArray(asset.contentURL)
-            ? asset.contentURL[0]
-            : asset.contentURL;
-        await rulesetFromURLs({
-            id: id.toLowerCase(),
-            name: asset.title,
-            enabled: false,
-            urls: [ contentURL ],
-            homeURL: asset.supportURL,
-        });
-    }
+    //     const contentURL = Array.isArray(asset.contentURL)
+    //         ? asset.contentURL[0]
+    //         : asset.contentURL;
+    //     await rulesetFromURLs({
+    //         id: id.toLowerCase(),
+    //         name: asset.title,
+    //         enabled: false,
+    //         urls: [ contentURL ],
+    //         homeURL: asset.supportURL,
+    //     });
+    // }
 
-    // Handpicked annoyance rulesets from assets.json
-    await rulesetFromURLs({
-        id: 'annoyances-cookies',
-        name: 'EasyList/uBO – Cookie Notices',
-        group: 'annoyances',
-        enabled: false,
-        secret,
-        urls: [
-            'https://ublockorigin.github.io/uAssets/thirdparties/easylist-cookies.txt',
-            'https://ublockorigin.github.io/uAssets/filters/annoyances-cookies.txt',
-        ],
-        homeURL: 'https://github.com/easylist/easylist#fanboy-lists',
-    });
-    await rulesetFromURLs({
-        id: 'annoyances-overlays',
-        name: 'AdGuard/uBO – Overlays',
-        group: 'annoyances',
-        enabled: false,
-        secret,
-        urls: [
-            'https://filters.adtidy.org/extension/ublock/filters/19.txt',
-            'https://ublockorigin.github.io/uAssets/filters/annoyances-others.txt',
-        ],
-        homeURL: 'https://github.com/AdguardTeam/AdguardFilters#adguard-filters',
-    });
-    await rulesetFromURLs({
-        id: 'annoyances-social',
-        name: 'AdGuard – Social Media',
-        group: 'annoyances',
-        enabled: false,
-        urls: [
-            'https://filters.adtidy.org/extension/ublock/filters/4.txt',
-        ],
-        homeURL: 'https://github.com/AdguardTeam/AdguardFilters#adguard-filters',
-    });
-    await rulesetFromURLs({
-        id: 'annoyances-widgets',
-        name: 'AdGuard – Widgets',
-        group: 'annoyances',
-        enabled: false,
-        urls: [
-            'https://filters.adtidy.org/extension/ublock/filters/22.txt',
-        ],
-        homeURL: 'https://github.com/AdguardTeam/AdguardFilters#adguard-filters',
-    });
-    await rulesetFromURLs({
-        id: 'annoyances-others',
-        name: 'AdGuard – Other Annoyances',
-        group: 'annoyances',
-        enabled: false,
-        urls: [
-            'https://filters.adtidy.org/extension/ublock/filters/21.txt',
-        ],
-        homeURL: 'https://github.com/AdguardTeam/AdguardFilters#adguard-filters',
-    });
+    // // Handpicked annoyance rulesets from assets.json
+    // await rulesetFromURLs({
+    //     id: 'annoyances-cookies',
+    //     name: 'EasyList/uBO – Cookie Notices',
+    //     group: 'annoyances',
+    //     enabled: false,
+    //     secret,
+    //     urls: [
+    //         'https://ublockorigin.github.io/uAssets/thirdparties/easylist-cookies.txt',
+    //         'https://ublockorigin.github.io/uAssets/filters/annoyances-cookies.txt',
+    //     ],
+    //     homeURL: 'https://github.com/easylist/easylist#fanboy-lists',
+    // });
+    // await rulesetFromURLs({
+    //     id: 'annoyances-overlays',
+    //     name: 'AdGuard/uBO – Overlays',
+    //     group: 'annoyances',
+    //     enabled: false,
+    //     secret,
+    //     urls: [
+    //         'https://filters.adtidy.org/extension/ublock/filters/19.txt',
+    //         'https://ublockorigin.github.io/uAssets/filters/annoyances-others.txt',
+    //     ],
+    //     homeURL: 'https://github.com/AdguardTeam/AdguardFilters#adguard-filters',
+    // });
+    // await rulesetFromURLs({
+    //     id: 'annoyances-social',
+    //     name: 'AdGuard – Social Media',
+    //     group: 'annoyances',
+    //     enabled: false,
+    //     urls: [
+    //         'https://filters.adtidy.org/extension/ublock/filters/4.txt',
+    //     ],
+    //     homeURL: 'https://github.com/AdguardTeam/AdguardFilters#adguard-filters',
+    // });
+    // await rulesetFromURLs({
+    //     id: 'annoyances-widgets',
+    //     name: 'AdGuard – Widgets',
+    //     group: 'annoyances',
+    //     enabled: false,
+    //     urls: [
+    //         'https://filters.adtidy.org/extension/ublock/filters/22.txt',
+    //     ],
+    //     homeURL: 'https://github.com/AdguardTeam/AdguardFilters#adguard-filters',
+    // });
+    // await rulesetFromURLs({
+    //     id: 'annoyances-others',
+    //     name: 'AdGuard – Other Annoyances',
+    //     group: 'annoyances',
+    //     enabled: false,
+    //     urls: [
+    //         'https://filters.adtidy.org/extension/ublock/filters/21.txt',
+    //     ],
+    //     homeURL: 'https://github.com/AdguardTeam/AdguardFilters#adguard-filters',
+    // });
 
-    // Handpicked rulesets from abroad
-    await rulesetFromURLs({
-        id: 'stevenblack-hosts',
-        name: 'Steven Black\'s hosts file',
-        enabled: false,
-        urls: [ 'https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts' ],
-        homeURL: 'https://github.com/StevenBlack/hosts#readme',
-    });
+    // // Handpicked rulesets from abroad
+    // await rulesetFromURLs({
+    //     id: 'stevenblack-hosts',
+    //     name: 'Steven Black\'s hosts file',
+    //     enabled: false,
+    //     urls: [ 'https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts' ],
+    //     homeURL: 'https://github.com/StevenBlack/hosts#readme',
+    // });
 
     writeFile(
         `${rulesetDir}/ruleset-details.json`,
