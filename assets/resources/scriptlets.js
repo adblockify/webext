@@ -1198,10 +1198,10 @@ function jsonPruneFetchResponseFn(
     const extraArgs = safe.getExtraArgs(Array.from(arguments), 2);
     const propNeedles = parsePropertiesToMatch(extraArgs.propsToMatch, 'url');
     const stackNeedle = safe.initPattern(extraArgs.stackToMatch || '', { canNegate: true });
+    const logall = rawPrunePaths === '';
     const applyHandler = function(target, thisArg, args) {
         const fetchPromise = Reflect.apply(target, thisArg, args);
-        if ( rawPrunePaths === '' ) { return fetchPromise; }
-        let outcome = 'match';
+        let outcome = logall ? 'nomatch' : 'match';
         if ( propNeedles.size !== 0 ) {
             const objs = [ args[0] instanceof Object ? args[0] : { url: args[0] } ];
             if ( objs[0] instanceof Request ) {
@@ -1218,14 +1218,18 @@ function jsonPruneFetchResponseFn(
                 outcome = 'nomatch';
             }
         }
-        if ( outcome === 'nomatch' ) { return fetchPromise; }
-        if ( safe.logLevel > 1 ) {
+        if ( logall === false && outcome === 'nomatch' ) { return fetchPromise; }
+        if ( safe.logLevel > 1 && outcome !== 'nomatch' && propNeedles.size !== 0 ) {
             safe.uboLog(logPrefix, `Matched optional "propsToMatch"\n${extraArgs.propsToMatch}`);
         }
         return fetchPromise.then(responseBefore => {
             const response = responseBefore.clone();
             return response.json().then(objBefore => {
                 if ( typeof objBefore !== 'object' ) { return responseBefore; }
+                if ( logall ) {
+                    safe.uboLog(logPrefix, safe.JSON_stringify(objBefore, null, 2));
+                    return responseBefore;
+                }
                 const objAfter = objectPruneFn(
                     objBefore,
                     rawPrunePaths,
@@ -1481,7 +1485,7 @@ function abortOnPropertyWrite(
     if ( typeof prop !== 'string' ) { return; }
     if ( prop === '' ) { return; }
     const safe = safeSelf();
-    const logPrefix = safe.makeLogPrefix('abort-on-property-read', prop);
+    const logPrefix = safe.makeLogPrefix('abort-on-property-write', prop);
     const exceptionToken = getExceptionToken();
     let owner = window;
     for (;;) {
@@ -1587,23 +1591,44 @@ function addEventListenerDefuser(
     pattern = ''
 ) {
     const safe = safeSelf();
-    const logPrefix = safe.makeLogPrefix('prevent-addEventListener', type, pattern);
     const extraArgs = safe.getExtraArgs(Array.from(arguments), 2);
+    const logPrefix = safe.makeLogPrefix('prevent-addEventListener', type, pattern);
     const reType = safe.patternToRegex(type, undefined, true);
     const rePattern = safe.patternToRegex(pattern);
     const debug = shouldDebug(extraArgs);
     const targetSelector = extraArgs.elements || undefined;
-    const shouldPrevent = (thisArg, type, handler) => {
-        if ( targetSelector !== undefined ) {
-            const elems = Array.from(document.querySelectorAll(targetSelector));
-            if ( elems.includes(thisArg) === false ) { return false; }
+    const elementMatches = elem => {
+        if ( elem && elem.matches && elem.matches(targetSelector) ) { return true; }
+        const elems = Array.from(document.querySelectorAll(targetSelector));
+        return elems.includes(elem);
+    };
+    const elementDetails = elem => {
+        if ( elem instanceof Window ) { return 'window'; }
+        if ( elem instanceof Document ) { return 'document'; }
+        if ( elem instanceof Element === false ) { return '?'; }
+        const parts = [];
+        if ( elem.id !== '' ) { parts.push(`#${CSS.escape(elem.id)}`); }
+        for ( let i = 0; i < elem.classList.length; i++ ) {
+            parts.push(`.${CSS.escape(elem.classList.item(i))}`);
         }
+        for ( let i = 0; i < elem.attributes.length; i++ ) {
+            const attr = elem.attributes.item(i);
+            if ( attr.name === 'id' ) { continue; }
+            if ( attr.name === 'class' ) { continue; }
+            parts.push(`[${CSS.escape(attr.name)}="${attr.value}"]`);
+        }
+        return parts.join('');
+    };
+    const shouldPrevent = (thisArg, type, handler) => {
         const matchesType = safe.RegExp_test.call(reType, type);
         const matchesHandler = safe.RegExp_test.call(rePattern, handler);
         const matchesEither = matchesType || matchesHandler;
         const matchesBoth = matchesType && matchesHandler;
         if ( debug === 1 && matchesBoth || debug === 2 && matchesEither ) {
             debugger; // jshint ignore:line
+        }
+        if ( matchesBoth && targetSelector !== undefined ) {
+            if ( elementMatches(thisArg) === false ) { return false; }
         }
         return matchesBoth;
     };
@@ -1613,15 +1638,21 @@ function addEventListenerDefuser(
                 let t, h;
                 try {
                     t = String(args[0]);
-                    h = args[1] instanceof Function
-                        ? String(safe.Function_toString(args[1]))
-                        : String(args[1]);
+                    if ( typeof args[1] === 'function' ) {
+                        h = String(safe.Function_toString(args[1]));
+                    } else if ( typeof args[1] === 'object' && args[1] !== null ) {
+                        if ( typeof args[1].handleEvent === 'function' ) {
+                            h = String(safe.Function_toString(args[1].handleEvent));
+                        }
+                    } else {
+                        h = String(args[1]);
+                    }
                 } catch(ex) {
                 }
                 if ( type === '' && pattern === '' ) {
-                    safe.uboLog(logPrefix, `Called: ${t}\n${h}`);
+                    safe.uboLog(logPrefix, `Called: ${t}\n${h}\n${elementDetails(thisArg)}`);
                 } else if ( shouldPrevent(thisArg, t, h) ) {
-                    return safe.uboLog(logPrefix, `Prevented: ${t}\n${h}`);
+                    return safe.uboLog(logPrefix, `Prevented: ${t}\n${h}\n${elementDetails(thisArg)}`);
                 }
                 return Reflect.apply(target, thisArg, args);
             },
@@ -1997,10 +2028,6 @@ function noFetchIf(
             const details = args[0] instanceof self.Request
                 ? args[0]
                 : Object.assign({ url: args[0] }, args[1]);
-            if ( propsToMatch === '' && responseBody === '' ) {
-                safe.uboLog(logPrefix, `Called: ${safe.JSON_stringify(details, null, 2)}`);
-                return Reflect.apply(target, thisArg, args);
-            }
             let proceed = true;
             try {
                 const props = new Map();
@@ -2012,6 +2039,11 @@ function noFetchIf(
                     }
                     if ( typeof v !== 'string' ) { continue; }
                     props.set(prop, v);
+                }
+                if ( propsToMatch === '' && responseBody === '' ) {
+                    const out = Array.from(props).map(a => `${a[0]}:${a[1]}`);
+                    safe.uboLog(logPrefix, `Called: ${out.join('\n')}`);
+                    return Reflect.apply(target, thisArg, args);
                 }
                 proceed = needles.length === 0;
                 for ( const { key, re } of needles ) {
@@ -3427,7 +3459,7 @@ function hrefSanitizer(
             if ( shouldSanitize ) { break; }
         }
         if ( shouldSanitize === false ) { return; }
-        timer = self.requestAnimationFrame(( ) => {
+        timer = self.requestIdleCallback(( ) => {
             timer = undefined;
             sanitize();
         });
@@ -3678,7 +3710,7 @@ function setCookie(
         value,
         '',
         path,
-        safeSelf().getExtraArgs(Array.from(arguments), 3)
+        safe.getExtraArgs(Array.from(arguments), 3)
     );
 
     if ( done ) {
@@ -3769,6 +3801,7 @@ builtinScriptlets.push({
     world: 'ISOLATED',
     dependencies: [
         'run-at.fn',
+        'safe-self.fn',
     ],
 });
 function setAttr(
@@ -3776,9 +3809,11 @@ function setAttr(
     attr = '',
     value = ''
 ) {
-    if ( typeof selector !== 'string' ) { return; }
     if ( selector === '' ) { return; }
+    if ( attr === '' ) { return; }
 
+    const safe = safeSelf();
+    const logPrefix = safe.makeLogPrefix('set-attr', attr, value);
     const validValues = [ '', 'false', 'true' ];
     let copyFrom = '';
 
@@ -3813,7 +3848,11 @@ function setAttr(
             const before = elem.getAttribute(attr);
             const after = extractValue(elem);
             if ( after === before ) { continue; }
+            if ( after !== '' && /^on/i.test(attr) ) {
+                if ( attr.toLowerCase() in elem ) { continue; }
+            }
             elem.setAttribute(attr, after);
+            safe.uboLog(logPrefix, `${attr}="${after}"`);
         }
         return true;
     };
@@ -4615,7 +4654,7 @@ function trustedReplaceArgument(
         const argBefore = arglist[argpos];
         if ( reCondition.test(argBefore) === false ) { return reflector(...args); }
         arglist[argpos] = normalValue;
-        safe.uboLog(logPrefix, `Replaced argument:\nBefore: ${argBefore.trim()}\nAfter: ${normalValue}`);
+        safe.uboLog(logPrefix, `Replaced argument:\nBefore: ${JSON.stringify(argBefore)}\nAfter: ${normalValue}`);
         return reflector(...args);
     });
 }
