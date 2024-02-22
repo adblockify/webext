@@ -3,3 +3,5 @@
 /dist/build/
 /tmp/
 .DS_Store
+node_modules
+platform/mv3/extension/css/tailwind.css

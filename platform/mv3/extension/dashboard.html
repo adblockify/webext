@@ -13,6 +13,16 @@
 <link rel="stylesheet" href="css/filtering-mode.css">
 <link rel="stylesheet" href="css/settings.css">
 
+<link rel="stylesheet" href="css/fonts.css" />
+<style>
+    body, button, textarea {
+        font-family: "Gabarito Variable";
+    }
+    #trustedSites {
+        font-size: 14px;
+    }
+</style>
+
 <link rel="shortcut icon" type="image/png" href="img/icon_64.png"/>
 </head>
 
@@ -83,7 +93,7 @@
         </div>
 
         <div>
-            <h3>No filtering</h3>
+            <h3>Whitelist</h3>
             <p>List of hostnames for which no filtering will take place</p>
             <p><textarea id="trustedSites" spellcheck="false"></textarea>
             </p>
@@ -121,7 +131,8 @@
     <!-- -------- -->
     <section data-pane="about">
         <div class="body">
-            <div id="aboutNameVer" class="li"></div>
+            <h3 id="aboutNameVer"></h3>
+            <div id="installId" class="li"></div>
             <div class="li"><a href="mailto:support@adblockify.com">Contact support</a></div>
             <div class="li"><a href="https://www.adblockify.com/account">My account</a></div>
             <div class="li"><a href="https://billing.stripe.com/p/login/9AQ5lEgJP05maE8aEE">Manage billing</a></div>

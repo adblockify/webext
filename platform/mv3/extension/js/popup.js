@@ -47,7 +47,7 @@ function normalizedHostname(hn) {
 
 /******************************************************************************/
 
-document.querySelector('.dashboard__button').addEventListener('click', (ev) => {
+document.querySelector('#dashboard_button').addEventListener('click', (ev) => {
     if ( ev.isTrusted !== true ) { return; }
     if ( ev.button !== 0 ) { return; }
     runtime.openOptionsPage();
@@ -55,26 +55,29 @@ document.querySelector('.dashboard__button').addEventListener('click', (ev) => {
 
 /******************************************************************************/
 
-const switchButton = document.querySelector('.switch__button');
-const detailsHeading = document.querySelector('.details__heading');
-const detailsSubheading = document.querySelector('.details__subheading');
+const switchButton = document.querySelector('#switch_button');
+const switchThumb = document.querySelector('#switch_thumb');
+const status = document.querySelector('#status');
+const hostname = document.querySelector('#hostname');
+const privacyStatus = document.querySelector('#privacy_status');
 
 const switchButtonOn = () => {
-    switchButton.classList.add('on');
-    detailsHeading.innerHTML = 'Active';
-    detailsSubheading.innerHTML = `Blocking ads & trackers on this page`;
+    switchButton.setAttribute('data-state', 'checked');
+    status.innerHTML = 'Blocking ads';
+    privacyStatus.innerHTML = 'Your Internet is <span class="text-accent-500">private</span>';
 }
 const switchButtonOff = () => {
-    switchButton.classList.remove('on');
-    detailsHeading.innerHTML = 'Disabled';
-    detailsSubheading.innerHTML = `You are not blocking ads on<br>${normalizedHostname(tabHostname)}`;
+    switchButton.setAttribute('data-state', 'unchecked');
+    status.innerHTML = 'Disabled';
+    privacyStatus.innerHTML = 'Your Internet is <span class="text-primary-600">not private</span>';
 }
 
 switchButton.addEventListener('click', async () => {
-    switchButton.classList.add('transition');
+    switchButton.classList.add('transition-colors');
+    switchThumb.classList.add('transition-transform');
 
     const targetHostname = normalizedHostname(tabHostname);
-    const afterLevel = switchButton.classList.contains('on') ? 0 : 3;
+    const afterLevel = switchButton.getAttribute('data-state') === 'checked' ? 0 : 3;
     const beforeLevel = afterLevel ? 0 : 3;
     if (afterLevel === 0) {
         switchButtonOff();
@@ -136,6 +139,7 @@ async function init() {
         }
     }
 
+    hostname.innerHTML = tabHostname;
     if (popupPanelData.level === 0) {
         switchButtonOff();
     } else { 

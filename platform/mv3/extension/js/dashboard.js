@@ -21,7 +21,7 @@
 
 'use strict';
 
-import { runtime } from './ext.js';
+import { runtime, localRead } from './ext.js';
 import { dom } from './dom.js';
 
 /******************************************************************************/
@@ -29,6 +29,12 @@ import { dom } from './dom.js';
 {
     const manifest = runtime.getManifest();
     dom.text('#aboutNameVer', `${manifest.name} ${manifest.version}`);
+}
+{
+    (async () => {
+        const installId = await localRead('installId');
+        dom.text('#installId', installId)
+    })();
 }
 
 dom.attr('a', 'target', '_blank');
