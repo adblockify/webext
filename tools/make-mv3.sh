@@ -115,10 +115,6 @@ if [ "$QUICK" != "yes" ]; then
     cp "$UBO_DIR"/src/web_accessible_resources/* "$TMPDIR"/web_accessible_resources/
     cd "$TMPDIR"
     node --no-warnings make-rulesets.js output="$DES" platform="$PLATFORM"
-    if [ -n "$BEFORE" ]; then
-        echo "*** uBOLite.mv3: salvaging rule ids to minimize diff size"
-        node --no-warnings salvage-ruleids.mjs before="$BEFORE"/"$PLATFORM" after="$DES"
-    fi
     cd - > /dev/null
     rm -rf "$TMPDIR"
 fi
@@ -127,6 +123,10 @@ echo "*** uBOLite.mv3: extension ready"
 echo "Extension location: $DES/"
 
 if [ "$FULL" = "yes" ]; then
+    if [ -n "$BEFORE" ]; then
+        echo "*** uBOLite.mv3: salvaging rule ids to minimize diff size"
+        node salvage-ruleids.mjs before="$BEFORE"/"$PLATFORM" after="$DES"
+    fi
     EXTENSION="zip"
     if [ "$PLATFORM" = "firefox" ]; then
         EXTENSION="xpi"
