@@ -6,7 +6,7 @@
   "license": "GPLV3",
   "scripts": {
     "generate": "npx tailwindcss -i ./tailwind.css -o ./platform/mv3/extension/css/tailwind.css",
-    "build": "npm run generate && make mv3-chromium",
+    "build": "rm -rf dist && npm run generate && make mv3-chromium",
     "release": "npm run generate && make mv3-full"
   },
   "devDependencies": {

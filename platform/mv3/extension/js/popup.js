@@ -64,12 +64,12 @@ const privacyStatus = document.querySelector('#privacy_status');
 const switchButtonOn = () => {
     switchButton.setAttribute('data-state', 'checked');
     status.innerHTML = 'Blocking ads';
-    privacyStatus.innerHTML = 'Your Internet is <span class="text-accent-500">private</span>';
+    privacyStatus.innerHTML = 'Your Internet is <span class="text-accent-500">private</span>.';
 }
 const switchButtonOff = () => {
     switchButton.setAttribute('data-state', 'unchecked');
     status.innerHTML = 'Disabled';
-    privacyStatus.innerHTML = 'Your Internet is <span class="text-primary-600">not private</span>';
+    privacyStatus.innerHTML = 'Your Internet is <span class="text-primary-600">not private</span>.';
 }
 
 switchButton.addEventListener('click', async () => {
