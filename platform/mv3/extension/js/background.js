@@ -291,11 +291,16 @@ function onMessage(request, sender, callback) {
 
 /******************************************************************************/
 
-let installId;
+let extensionId;
 
 chrome.runtime.onMessageExternal.addListener(function(request, sender, sendResponse) {
-    if (request.message === 'getInstallId') {
-        sendResponse({ installId });
+    if (request?.message === 'sync-extension-id' && request?.payload?.extensionId) {
+        if (!extensionId) {
+            extensionId = request.payload.extensionId
+        }
+        localWrite('extensionId', extensionId);
+        runtime.setUninstallURL(`https://www.adblockify.com/account/uninstalled?id=${extensionId}`);
+        sendResponse({ extensionId });
     }
     return false;
 });
@@ -308,9 +313,8 @@ async function checkIn(openTab) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                installId,
+                extensionId,
                 version: getCurrentVersion(),
-                userAgent: navigator.userAgent,
             })
         });
         const body = await res.text();
@@ -320,16 +324,9 @@ async function checkIn(openTab) {
         } catch {
             throw new Error(`Invalid JSON: "${body}"`);
         }
-        if ( data && data.installId ) {
-            installId = data.installId;
-            await localWrite('installId', installId);
-
-            runtime.setUninstallURL(`https://www.adblockify.com/account/uninstalled?id=${installId}`);
-
+        if ( data && data.success === false ) {
             if (openTab) {
-                if (data.subscriptionActive ? data.paymentIssues : data.trialExpired) {
-                    await browser.tabs.create({ url: 'https://www.adblockify.com/account' })
-                }
+                await browser.tabs.create({ url: 'https://www.adblockify.com/account' })
             }
         }
 
@@ -349,7 +346,7 @@ browser.tabs.onUpdated.addListener(async () => {
 });
 
 async function start() {
-    installId = await localRead('installId') || crypto.randomUUID()
+    extensionId = await localRead('extensionId');
 
     await loadRulesetConfig();
 

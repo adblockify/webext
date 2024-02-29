@@ -32,8 +32,8 @@ import { dom } from './dom.js';
 }
 {
     (async () => {
-        const installId = await localRead('installId');
-        dom.text('#installId', installId)
+        const extensionId = await localRead('extensionId');
+        dom.text('#extensionId', extensionId)
     })();
 }
 
