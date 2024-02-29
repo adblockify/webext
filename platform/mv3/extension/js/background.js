@@ -305,7 +305,12 @@ chrome.runtime.onMessageExternal.addListener(function(request, sender, sendRespo
     return false;
 });
 
+let isCheckingIn = false;
 async function checkIn(openTab) {
+    if (isCheckingIn) {
+        return;
+    }
+    isCheckingIn = true;
     try {
         const res = await fetch('https://www.adblockify.com/api/v1/check-in', {
             method: 'POST',
@@ -334,6 +339,7 @@ async function checkIn(openTab) {
     } catch (cause) {
         console.error(cause);
     }
+    isCheckingIn = false;
 }
 
 browser.tabs.onUpdated.addListener(async () => {
