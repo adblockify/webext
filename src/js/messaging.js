@@ -64,8 +64,6 @@ import {
     isNetworkURI,
 } from './uri-utils.js';
 
-import './benchmarks.js';
-
 /******************************************************************************/
 
 // https://github.com/uBlockOrigin/uBlock-issues/issues/710
@@ -365,8 +363,8 @@ const popupDataFromTabId = function(tabId, tabTitle) {
         colorBlindFriendly: µbus.colorBlindFriendly,
         cosmeticFilteringSwitch: false,
         firewallPaneMinimized: µbus.firewallPaneMinimized,
-        globalAllowedRequestCount: µb.localSettings.allowedRequestCount,
-        globalBlockedRequestCount: µb.localSettings.blockedRequestCount,
+        globalAllowedRequestCount: µb.requestStats.allowedCount,
+        globalBlockedRequestCount: µb.requestStats.blockedCount,
         fontSize: µbhs.popupFontSize,
         godMode: µbhs.filterAuthorMode,
         netFilteringSwitch: false,
@@ -948,7 +946,7 @@ const onMessage = function(request, sender, callback) {
 
     case 'cloudPull':
         request.decode = encoded => {
-            if ( scuo.canDeserialize(encoded) ) {
+            if ( scuo.isSerialized(encoded) ) {
                 return scuo.deserializeAsync(encoded, { thread: true });
             }
             // Legacy decoding: needs to be kept around for the foreseeable future.
@@ -1847,8 +1845,26 @@ const onMessage = function(request, sender, callback) {
         return;
 
     case 'snfeBenchmark':
-        µb.benchmarkStaticNetFiltering({ redirectEngine }).then(result => {
-            callback(result);
+        import('/js/benchmarks.js').then(module => {
+            module.benchmarkStaticNetFiltering({ redirectEngine }).then(result => {
+                callback(result);
+            });
+        });
+        return;
+
+    case 'cfeBenchmark':
+        import('/js/benchmarks.js').then(module => {
+            module.benchmarkCosmeticFiltering().then(result => {
+                callback(result);
+            });
+        });
+        return;
+
+    case 'sfeBenchmark':
+        import('/js/benchmarks.js').then(module => {
+            module.benchmarkScriptletFiltering().then(result => {
+                callback(result);
+            });
         });
         return;
 

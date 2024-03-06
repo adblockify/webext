@@ -49,13 +49,14 @@ const hiddenSettingsDefault = {
     allowGenericProceduralFilters: false,
     assetFetchTimeout: 30,
     autoCommentFilterTemplate: '{{date}} {{origin}}',
-    autoUpdateAssetFetchPeriod: 15,
-    autoUpdateDelayAfterLaunch: 105,
+    autoUpdateAssetFetchPeriod: 5,
+    autoUpdateDelayAfterLaunch: 37,
     autoUpdatePeriod: 1,
     benchmarkDatasetURL: 'unset',
     blockingProfiles: '11111/#F00 11010/#C0F 11001/#00F 00001',
     cacheStorageAPI: 'unset',
     cacheStorageCompression: true,
+    cacheStorageCompressionThreshold: 65536,
     cacheStorageMultithread: 2,
     cacheControlForFirefox1376932: 'no-cache, no-store, must-revalidate',
     cloudStorageCompression: true,
@@ -82,7 +83,8 @@ const hiddenSettingsDefault = {
     popupPanelLockedSections: 0,
     popupPanelHeightMode: 0,
     requestJournalProcessPeriod: 1000,
-    selfieAfter: 2,
+    requestStatsDisabled: false,
+    selfieDelayInSeconds: 53,
     strictBlockingBypassDuration: 120,
     toolbarWarningTimeout: 60,
     trustedListPrefixes: 'ublock-',
@@ -113,7 +115,7 @@ const userSettingsDefault = {
     externalLists: '',
     firewallPaneMinimized: true,
     hyperlinkAuditingDisabled: true,
-    ignoreGenericCosmeticFilters: vAPI.webextFlavor.soup.has('mobile'),
+    ignoreGenericCosmeticFilters: false,
     importedLists: [],
     largeMediaSize: 50,
     parseAllABPHideFilters: true,
@@ -145,7 +147,7 @@ if ( vAPI.webextFlavor.soup.has('firefox') ) {
 }
 
 const µBlock = {  // jshint ignore:line
-    wakeupReason: '',
+    alarmQueue: [],
 
     userSettingsDefault,
     userSettings: Object.assign({}, userSettingsDefault),
@@ -173,11 +175,10 @@ const µBlock = {  // jshint ignore:line
         'moz-extension-scheme',
     ],
 
-    localSettings: {
-        blockedRequestCount: 0,
-        allowedRequestCount: 0,
+    requestStats: {
+        blockedCount: 0,
+        allowedCount: 0,
     },
-    localSettingsLastModified: 0,
 
     // Read-only
     systemSettings: {

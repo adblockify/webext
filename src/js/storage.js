@@ -97,24 +97,80 @@ import {
 /******************************************************************************/
 
 {
-    let localSettingsLastSaved = Date.now();
+    const requestStats = µb.requestStats;
+    let requestStatsDisabled = false;
 
-    const shouldSave = ( ) => {
-        if ( µb.localSettingsLastModified > localSettingsLastSaved ) {
-            µb.saveLocalSettings();
+    µb.loadLocalSettings = async ( ) => {
+        requestStatsDisabled = µb.hiddenSettings.requestStatsDisabled;
+        if ( requestStatsDisabled ) { return; }
+        return Promise.all([
+            vAPI.sessionStorage.get('requestStats'),
+            vAPI.storage.get('requestStats'),
+            vAPI.storage.get([ 'blockedRequestCount', 'allowedRequestCount' ]),
+        ]).then(([ a, b, c ]) => {
+            if ( a instanceof Object && a.requestStats ) { return a.requestStats; }
+            if ( b instanceof Object && b.requestStats ) { return b.requestStats; }
+            if ( c instanceof Object && Object.keys(c).length === 2 ) {
+                return {
+                    blockedCount: c.blockedRequestCount,
+                    allowedCount: c.allowedRequestCount,
+                };
+            }
+            return { blockedCount: 0, allowedCount: 0 };
+        }).then(({ blockedCount, allowedCount }) => {
+            requestStats.blockedCount += blockedCount;
+            requestStats.allowedCount += allowedCount;
+        });
+    };
+
+    const SAVE_DELAY_IN_MINUTES = 3.6;
+    const QUICK_SAVE_DELAY_IN_SECONDS = 23;
+
+    const stopTimers = ( ) => {
+        vAPI.alarms.clear('saveLocalSettings');
+        quickSaveTimer.off();
+        saveTimer.off();
+    };
+
+    const saveTimer = vAPI.defer.create(( ) => {
+        µb.saveLocalSettings();
+    });
+
+    const quickSaveTimer = vAPI.defer.create(( ) => {
+        if ( vAPI.sessionStorage.unavailable !== true ) {
+            vAPI.sessionStorage.set({ requestStats: requestStats });
         }
-        saveTimer.on(saveDelay);
+        if ( requestStatsDisabled ) { return; }
+        saveTimer.on({ min: SAVE_DELAY_IN_MINUTES });
+        vAPI.alarms.createIfNotPresent('saveLocalSettings', {
+            delayInMinutes: SAVE_DELAY_IN_MINUTES + 0.5
+        });
+    });
+
+    µb.incrementRequestStats = (blocked, allowed) => {
+        requestStats.blockedCount += blocked;
+        requestStats.allowedCount += allowed;
+        quickSaveTimer.on({ sec: QUICK_SAVE_DELAY_IN_SECONDS });
     };
 
-    const saveTimer = vAPI.defer.create(shouldSave);
-    const saveDelay = { sec: 23 };
-
-    saveTimer.onidle(saveDelay);
-
-    µb.saveLocalSettings = function() {
-        localSettingsLastSaved = Date.now();
-        return vAPI.storage.set(this.localSettings);
+    µb.saveLocalSettings = ( ) => {
+        stopTimers();
+        if ( requestStatsDisabled ) { return; }
+        return vAPI.storage.set({ requestStats: µb.requestStats });
     };
+
+    onBroadcast(msg => {
+        if ( msg.what !== 'hiddenSettingsChanged' ) { return; }
+        const newState = µb.hiddenSettings.requestStatsDisabled;
+        if ( requestStatsDisabled === newState ) { return; }
+        requestStatsDisabled = newState;
+        if ( newState ) {
+            stopTimers();
+            µb.requestStats.blockedCount = µb.requestStats.allowedCount = 0;
+        } else {
+            µb.loadLocalSettings();
+        }
+    });
 }
 
 /******************************************************************************/
@@ -625,6 +681,7 @@ onBroadcast(msg => {
     cosmeticFilteringEngine.removeFromSelectorCache(
         hostnameFromURI(details.docURL)
     );
+    staticFilteringReverseLookup.resetLists();
 };
 
 µb.userFiltersAreEnabled = function() {
@@ -1147,7 +1204,10 @@ onBroadcast(msg => {
 µb.loadRedirectResources = async function() {
     try {
         const success = await redirectEngine.resourcesFromSelfie(io);
-        if ( success === true ) { return true; }
+        if ( success === true ) {
+            ubolog('Loaded redirect/scriptlets resources from selfie');
+            return true;
+        }
 
         const fetcher = (path, options = undefined) => {
             if ( path.startsWith('/web_accessible_resources/') ) {
@@ -1220,8 +1280,11 @@ onBroadcast(msg => {
     }
 
     try {
-        const selfie = await io.fromCache(`compiled/${this.pslAssetKey}`);
-        if ( psl.fromSelfie(selfie) ) { return; }
+        const selfie = await io.fromCache(`selfie/${this.pslAssetKey}`);
+        if ( psl.fromSelfie(selfie) ) {
+            ubolog('Loaded PSL from selfie');
+            return;
+        }
     } catch (reason) {
         ubolog(reason);
     }
@@ -1235,7 +1298,8 @@ onBroadcast(msg => {
 µb.compilePublicSuffixList = function(content) {
     const psl = publicSuffixList;
     psl.parse(content, punycode.toASCII);
-    return io.toCache(`compiled/${this.pslAssetKey}`, psl.toSelfie());
+    ubolog(`Loaded PSL from ${this.pslAssetKey}`);
+    return io.toCache(`selfie/${this.pslAssetKey}`, psl.toSelfie());
 };
 
 /******************************************************************************/
@@ -1255,7 +1319,7 @@ onBroadcast(msg => {
         if ( µb.inMemoryFilters.length !== 0 ) { return; }
         if ( Object.keys(µb.availableFilterLists).length === 0 ) { return; }
         await Promise.all([
-            io.toCache('selfie/main', {
+            io.toCache('selfie/staticMain', {
                 magic: µb.systemSettings.selfieMagic,
                 availableFilterLists: µb.availableFilterLists,
             }),
@@ -1268,11 +1332,11 @@ onBroadcast(msg => {
         ]);
         lz4Codec.relinquish();
         µb.selfieIsInvalid = false;
-        ubolog(`Selfie was created`);
+        ubolog('Filtering engine selfie created');
     };
 
     const loadMain = async function() {
-        const selfie = await io.fromCache('selfie/main');
+        const selfie = await io.fromCache('selfie/staticMain');
         if ( selfie instanceof Object === false ) { return false; }
         if ( selfie.magic !== µb.systemSettings.selfieMagic ) { return false; }
         if ( selfie.availableFilterLists instanceof Object === false ) { return false; }
@@ -1300,34 +1364,26 @@ onBroadcast(msg => {
         catch (reason) {
             ubolog(reason);
         }
+        ubolog('Filtering engine selfie not available');
         destroy();
         return false;
     };
 
     const destroy = function(options = {}) {
         if ( µb.selfieIsInvalid === false ) {
-            io.remove(/^selfie\//, options);
+            io.remove(/^selfie\/static/, options);
             µb.selfieIsInvalid = true;
-            ubolog(`Selfie was removed`);
-        }
-        if ( µb.wakeupReason === 'createSelfie' ) {
-            µb.wakeupReason = '';
-            return createTimer.offon({ sec: 27 });
+            ubolog('Filtering engine selfie marked for invalidation');
         }
         vAPI.alarms.create('createSelfie', {
-            delayInMinutes: µb.hiddenSettings.selfieAfter
+            delayInMinutes: (µb.hiddenSettings.selfieDelayInSeconds + 17) / 60,
         });
-        createTimer.offon({ min: µb.hiddenSettings.selfieAfter });
+        createTimer.offon({ sec: µb.hiddenSettings.selfieDelayInSeconds });
     };
 
     const createTimer = vAPI.defer.create(create);
 
-    vAPI.alarms.onAlarm.addListener(alarm => {
-        if ( alarm.name !== 'createSelfie') { return; }
-        µb.wakeupReason = 'createSelfie';
-    });
-
-    µb.selfieManager = { load, destroy };
+    µb.selfieManager = { load, create, destroy };
 }
 
 /******************************************************************************/
@@ -1487,7 +1543,6 @@ onBroadcast(msg => {
 
 {
     let next = 0;
-    let lastEmergencyUpdate = 0;
 
     const launchTimer = vAPI.defer.create(fetchDelay => {
         next = 0;
@@ -1496,6 +1551,7 @@ onBroadcast(msg => {
 
     µb.scheduleAssetUpdater = async function(details = {}) {
         launchTimer.off();
+        vAPI.alarms.clear('assetUpdater');
 
         if ( details.now ) {
             next = 0;
@@ -1514,40 +1570,23 @@ onBroadcast(msg => {
             this.hiddenSettings.autoUpdatePeriod * 3600000;
 
         const now = Date.now();
-        let needEmergencyUpdate = false;
-
-        // Respect cooldown period before launching an emergency update.
-        const timeSinceLastEmergencyUpdate = (now - lastEmergencyUpdate) / 3600000;
-        if ( timeSinceLastEmergencyUpdate > 1 ) {
-            const entries = await io.getUpdateAges({
-                filters: µb.selectedFilterLists,
-                internal: [ '*' ],
-            });
-            for ( const entry of entries ) {
-                if ( entry.ageNormalized < 2 ) { continue; }
-                needEmergencyUpdate = true;
-                lastEmergencyUpdate = now;
-                break;
-            }
-        }
 
         // Use the new schedule if and only if it is earlier than the previous
         // one.
         if ( next !== 0 ) {
-            updateDelay = Math.min(updateDelay, Math.max(next - now, 0));
-        }
-
-        if ( needEmergencyUpdate ) {
-            updateDelay = Math.min(updateDelay, 15000);
+            updateDelay = Math.min(updateDelay, Math.max(next - now, 1));
         }
 
         next = now + updateDelay;
 
-        const fetchDelay = needEmergencyUpdate
-            ? 2000
-            : this.hiddenSettings.autoUpdateAssetFetchPeriod * 1000 || 60000;
+        const fetchDelay = details.fetchDelay ||
+            this.hiddenSettings.autoUpdateAssetFetchPeriod * 1000 ||
+            60000;
 
         launchTimer.on(updateDelay, fetchDelay);
+        vAPI.alarms.create('assetUpdater', {
+            delayInMinutes: Math.ceil(updateDelay / 60000) + 0.25
+        });
     };
 }
 

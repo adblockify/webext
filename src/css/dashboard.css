@@ -106,6 +106,9 @@ body.noDashboard #dashboard-nav {
     }
 
 /* touch-screen devices */
+:root.mobile, :root.mobile body {
+    height: 100svh;
+    }
 :root.mobile #dashboard-nav {
     flex-wrap: nowrap;
     overflow-x: auto;

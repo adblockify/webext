@@ -224,7 +224,7 @@ const xtypeToSerializedInt = {
     '[object DataView]': I_DATAVIEW,
 };
 
-const typeToSerializedChar = {
+const xtypeToSerializedChar = {
     '[object Int8Array]': C_INT8ARRAY,
     '[object Uint8Array]': C_UINT8ARRAY,
     '[object Uint8ClampedArray]': C_UINT8CLAMPEDARRAY,
@@ -280,6 +280,12 @@ const isInstanceOf = (o, s) => {
         s === 'Object' || Object.prototype.toString.call(o) === `[object ${s}]`
     );
 };
+
+const shouldCompress = (s, options) =>
+    options.compress === true && (
+        options.compressThreshold === undefined ||
+        options.compressThreshold <= s.length
+    );
 
 /*******************************************************************************
  * 
@@ -658,7 +664,7 @@ const _serialize = data => {
         case I_FLOAT32ARRAY:
         case I_FLOAT64ARRAY:
             writeBuffer.push(
-                typeToSerializedChar[xtypeName],
+                xtypeToSerializedChar[xtypeName],
                 strFromLargeUint(data.byteOffset),
                 strFromLargeUint(data.length)
             );
@@ -1051,10 +1057,9 @@ export const serialize = (data, options = {}) => {
     const s = writeBuffer.join('');
     writeRefs.clear();
     writeBuffer.length = 0;
-    if ( options.compress !== true ) { return s; }
+    if ( shouldCompress(s, options) === false ) { return s; }
     const lz4Util = new LZ4BlockJS();
-    const encoder = new TextEncoder();
-    const uint8ArrayBefore = encoder.encode(s);
+    const uint8ArrayBefore = textEncoder.encode(s);
     const uint8ArrayAfter = lz4Util.encode(uint8ArrayBefore, 0);
     const lz4 = {
         size: uint8ArrayBefore.length,
@@ -1096,9 +1101,12 @@ export const deserialize = s => {
     return data;
 };
 
-export const canDeserialize = s =>
+export const isSerialized = s =>
     typeof s === 'string' &&
         (s.startsWith(MAGICLZ4PREFIX) || s.startsWith(MAGICPREFIX));
+
+export const isCompressed = s =>
+    typeof s === 'string' && s.startsWith(MAGICLZ4PREFIX);
 
 /*******************************************************************************
  * 
@@ -1107,7 +1115,7 @@ export const canDeserialize = s =>
  * */
 
 const defaultConfig = {
-    threadTTL: 5000,
+    threadTTL: 3000,
 };
 
 const validateConfig = {
@@ -1137,10 +1145,82 @@ export const setConfig = config => {
  * 
  * */
 
+const THREAD_AREYOUREADY = 1;
+const THREAD_IAMREADY    = 2;
+const THREAD_SERIALIZE   = 3;
+const THREAD_DESERIALIZE = 4;
+
+class MainThread {
+    constructor() {
+        this.name = 'main';
+        this.jobs = [];
+        this.workload = 0;
+        this.timer = undefined;
+        this.busy = 2;
+    }
+
+    process() {
+        if ( this.jobs.length === 0 ) { return; }
+        const job = this.jobs.shift();
+        this.workload -= job.size;
+        const result = job.what === THREAD_SERIALIZE
+            ? serialize(job.data, job.options)
+            : deserialize(job.data);
+        job.resolve(result);
+        this.processAsync();
+        if ( this.jobs.length === 0 ) {
+            this.busy = 2;
+        } else if ( this.busy > 2 ) {
+            this.busy -= 1;
+        }
+    }
+
+    processAsync() {
+        if ( this.timer !== undefined ) { return; }
+        if ( this.jobs.length === 0 ) { return; }
+        this.timer = globalThis.requestIdleCallback(deadline => {
+            this.timer = undefined;
+            globalThis.queueMicrotask(( ) => {
+                this.process();
+            });
+            if ( deadline.timeRemaining() === 0 ) {
+                this.busy += 1;
+            }
+        }, { timeout: 5 });
+    }
+
+    serialize(data, options) {
+        return new Promise(resolve => {
+            this.workload += 1;
+            this.jobs.push({ what: THREAD_SERIALIZE, data, options, size: 1, resolve });
+            this.processAsync();
+        });
+    }
+
+    deserialize(data, options) {
+        return new Promise(resolve => {
+            const size = data.length;
+            this.workload += size;
+            this.jobs.push({ what: THREAD_DESERIALIZE, data, options, size, resolve });
+            this.processAsync();
+        });
+    }
+
+    get queueSize() {
+        return this.jobs.length;
+    }
+
+    get workSize() {
+        return this.workload * this.busy;
+    }
+}
+
 class Thread {
     constructor(gcer) {
+        this.name = 'worker';
         this.jobs = new Map();
         this.jobIdGenerator = 1;
+        this.workload = 0;
         this.workerAccessTime = 0;
         this.workerTimer = undefined;
         this.gcer = gcer;
@@ -1151,7 +1231,7 @@ class Thread {
                 worker.onmessage = ev => {
                     const msg = ev.data;
                     if ( isInstanceOf(msg, 'Object') === false ) { return; }
-                    if ( msg.what === 'ready!' ) {
+                    if ( msg.what === THREAD_IAMREADY ) {
                         worker.onmessage = ev => { this.onmessage(ev); };
                         worker.onerror = null;
                         resolve(worker);
@@ -1161,7 +1241,10 @@ class Thread {
                     worker.onmessage = worker.onerror = null;
                     resolve(null);
                 };
-                worker.postMessage({ what: 'ready?', config: currentConfig });
+                worker.postMessage({
+                    what: THREAD_AREYOUREADY,
+                    config: currentConfig,
+                });
             } catch(ex) {
                 console.info(ex);
                 worker.onmessage = worker.onerror = null;
@@ -1189,60 +1272,73 @@ class Thread {
     }
 
     onmessage(ev) {
-        const job = ev.data;
+        this.ondone(ev.data);
+    }
+
+    ondone(job) {
         const resolve = this.jobs.get(job.id);
         if ( resolve === undefined ) { return; }
         this.jobs.delete(job.id);
         resolve(job.result);
+        this.workload -= job.size;
         if ( this.jobs.size !== 0 ) { return; }
         this.countdownWorker();
     }
 
     async serialize(data, options) {
-        this.workerAccessTime = Date.now();
-        const worker = await this.workerPromise;
-        if ( worker === null ) {
-            const result = serialize(data, options);
-            this.countdownWorker();
-            return result;
-        }
-        const id = this.jobIdGenerator++;
         return new Promise(resolve => {
-            const job = { what: 'serialize', id, data, options };
-            this.jobs.set(job.id, resolve);
-            worker.postMessage(job);
+            const id = this.jobIdGenerator++;
+            this.workload += 1;
+            this.jobs.set(id, resolve);
+            return this.workerPromise.then(worker => {
+                this.workerAccessTime = Date.now();
+                if ( worker === null ) {
+                    this.ondone({ id, result: serialize(data, options), size: 1 });
+                } else {
+                    worker.postMessage({ what: THREAD_SERIALIZE, id, data, options, size: 1 });
+                }
+            });
         });
     }
 
     async deserialize(data, options) {
-        this.workerAccessTime = Date.now();
-        const worker = await this.workerPromise;
-        if ( worker === null ) {
-            const result = deserialize(data, options);
-            this.countdownWorker();
-            return result;
-        }
-        const id = this.jobIdGenerator++;
         return new Promise(resolve => {
-            const job = { what: 'deserialize', id, data, options };
-            this.jobs.set(job.id, resolve);
-            worker.postMessage(job);
+            const id = this.jobIdGenerator++;
+            const size = data.length;
+            this.workload += size;
+            this.jobs.set(id, resolve);
+            return this.workerPromise.then(worker => {
+                this.workerAccessTime = Date.now();
+                if ( worker === null ) {
+                    this.ondone({ id, result: deserialize(data, options), size });
+                } else {
+                    worker.postMessage({ what: THREAD_DESERIALIZE, id, data, options, size });
+                }
+            });
         });
+    }
+
+    get queueSize() {
+        return this.jobs.size;
+    }
+
+    get workSize() {
+        return this.workload;
     }
 }
 
 const threads = {
-    pool: [],
+    pool: [ new MainThread() ],
     thread(maxPoolSize) {
-        for ( const thread of this.pool ) {
-            if ( thread.jobs.size === 0 ) { return thread; }
-        }
-        const len = this.pool.length;
-        if ( len !== 0 && len >= maxPoolSize ) {
-            if ( len === 1 ) { return this.pool[0]; }
-            return this.pool.reduce((best, candidate) =>
-                candidate.jobs.size < best.jobs.size ? candidate : best
-            );
+        const poolSize = this.pool.length;
+        if ( poolSize !== 0 && poolSize >= maxPoolSize ) {
+            if ( poolSize === 1 ) { return this.pool[0]; }
+            return this.pool.reduce((a, b) => {
+                //console.log(`${a.name}: q=${a.queueSize} w=${a.workSize} ${b.name}: q=${b.queueSize} w=${b.workSize}`);
+                if ( b.queueSize === 0 ) { return b; }
+                if ( a.queueSize === 0 ) { return a; }
+                return b.workSize < a.workSize ? b : a;
+            });
         }
         const thread = new Thread(thread => {
             const pos = this.pool.indexOf(thread);
@@ -1259,21 +1355,22 @@ export async function serializeAsync(data, options = {}) {
     if ( maxThreadCount === 0 ) {
         return serialize(data, options);
     }
-    const result = await threads
-        .thread(maxThreadCount)
-        .serialize(data, options);
+    const thread = threads.thread(maxThreadCount);
+    //console.log(`serializeAsync: thread=${thread.name} workload=${thread.workSize}`);
+    const result = await thread.serialize(data, options);
     if ( result !== undefined ) { return result; }
     return serialize(data, options);
 }
 
 export async function deserializeAsync(data, options = {}) {
+    if ( isSerialized(data) === false ) { return data; }
     const maxThreadCount = options.multithreaded || 0;
     if ( maxThreadCount === 0 ) {
         return deserialize(data, options);
     }
-    const result = await threads
-        .thread(maxThreadCount)
-        .deserialize(data, options);
+    const thread = threads.thread(maxThreadCount);
+    //console.log(`deserializeAsync: thread=${thread.name} data=${data.length} workload=${thread.workSize}`);
+    const result = await thread.deserialize(data, options);
     if ( result !== undefined ) { return result; }
     return deserialize(data, options);
 }
@@ -1288,16 +1385,17 @@ if ( isInstanceOf(globalThis, 'DedicatedWorkerGlobalScope') ) {
     globalThis.onmessage = ev => {
         const msg = ev.data;
         switch ( msg.what ) {
-            case 'ready?':
+            case THREAD_AREYOUREADY:
                 setConfig(msg.config);
-                globalThis.postMessage({ what: 'ready!' });
+                globalThis.postMessage({ what: THREAD_IAMREADY });
                 break;
-            case 'serialize':
-            case 'deserialize': {
-                const result = msg.what === 'serialize'
-                    ? serialize(msg.data, msg.options)
-                    : deserialize(msg.data);
-                globalThis.postMessage({ id: msg.id, result });
+            case THREAD_SERIALIZE:
+                const result = serialize(msg.data, msg.options);
+                globalThis.postMessage({ id: msg.id, size: msg.size, result });
+                break;
+            case THREAD_DESERIALIZE: {
+                const result = deserialize(msg.data);
+                globalThis.postMessage({ id: msg.id, size: msg.size, result });
                 break;
             }
         }
