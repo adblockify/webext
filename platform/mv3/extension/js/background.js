@@ -353,6 +353,9 @@ browser.tabs.onUpdated.addListener(async () => {
 
 async function start() {
     extensionId = await localRead('extensionId');
+    if (!extensionId) {
+        await browser.tabs.create({ url: 'https://www.adblockify.com/account/installed' })
+    }
 
     await loadRulesetConfig();
 
