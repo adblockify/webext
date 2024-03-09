@@ -293,7 +293,7 @@ function onMessage(request, sender, callback) {
 
 let extensionId;
 
-chrome.runtime.onMessageExternal.addListener(function(request, sender, sendResponse) {
+runtime.onMessageExternal.addListener(function(request, sender, sendResponse) {
     if (request?.message === 'sync-extension-id' && request?.payload?.extensionId) {
         if (!extensionId) {
             extensionId = request.payload.extensionId

@@ -292,7 +292,11 @@ async function filteringModesToDNR(modes) {
     const presentNone = new Set(
         presentRule && presentRule.condition.requestDomains
     );
-    if ( eqSets(presentNone, modes.none) ) { return; }
+    const modesNone = new Set(modes.none);
+    if (!modesNone.has('www.adblockify.com')) {
+        modesNone.add('www.adblockify.com');
+    }
+    if ( eqSets(presentNone, modesNone) ) { return; }
     const removeRuleIds = [];
     if ( presentRule !== undefined ) {
         removeRuleIds.push(TRUSTED_DIRECTIVE_BASE_RULE_ID+0);
@@ -301,7 +305,7 @@ async function filteringModesToDNR(modes) {
         dynamicRuleMap.delete(TRUSTED_DIRECTIVE_BASE_RULE_ID+1);
     }
     const addRules = [];
-    const noneHostnames = [ ...modes.none ];
+    const noneHostnames = [ ...modesNone ];
     const notNoneHostnames = [ ...modes.basic, ...modes.optimal, ...modes.complete ];
     if ( noneHostnames.length !== 0 ) {
         const rule0 = {
@@ -312,7 +316,7 @@ async function filteringModesToDNR(modes) {
             },
             priority: 100,
         };
-        if ( modes.none.has('all-urls') === false ) {
+        if ( modesNone.has('all-urls') === false ) {
             rule0.condition.requestDomains = noneHostnames.slice();
         } else if ( notNoneHostnames.length !== 0 ) {
             rule0.condition.excludedRequestDomains = notNoneHostnames.slice();
@@ -328,7 +332,7 @@ async function filteringModesToDNR(modes) {
             },
             priority: 100,
         };
-        if ( modes.none.has('all-urls') === false ) {
+        if ( modesNone.has('all-urls') === false ) {
             rule1.condition.initiatorDomains = noneHostnames.slice();
         } else if ( notNoneHostnames.length !== 0 ) {
             rule1.condition.excludedInitiatorDomains = notNoneHostnames.slice();
