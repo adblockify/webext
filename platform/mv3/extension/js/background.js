@@ -19,47 +19,44 @@
     Home: https://github.com/gorhill/uBlock
 */
 
-/* jshint esversion:11 */
-
-'use strict';
-
 /******************************************************************************/
 
 import {
+    adminRead,
     browser,
     dnr,
-    runtime,
     localRead, localWrite,
+    runtime,
     sessionRead, sessionWrite,
     action,
 } from './ext.js';
 
 import {
-    getRulesetDetails,
+    broadcastMessage,
+    ubolLog,
+} from './utils.js';
+
+import {
     defaultRulesetsFromLanguage,
     enableRulesets,
     getEnabledRulesetsDetails,
+    getRulesetDetails,
     updateDynamicRules,
 } from './ruleset-manager.js';
 
 import {
-    registerInjectables,
-} from './scripting-manager.js';
-
-import {
-    getFilteringMode,
-    setFilteringMode,
     getDefaultFilteringMode,
-    setDefaultFilteringMode,
+    getFilteringMode,
     getTrustedSites,
+    setDefaultFilteringMode,
+    setFilteringMode,
     setTrustedSites,
     syncWithBrowserPermissions,
 } from './mode-manager.js';
 
 import {
-    broadcastMessage,
-    ubolLog,
-} from './utils.js';
+    registerInjectables,
+} from './scripting-manager.js';
 
 /******************************************************************************/
 
@@ -67,9 +64,12 @@ const rulesetConfig = {
     version: '',
     enabledRulesets: [ 'default' ],
     autoReload: true,
+    showBlockedCount: true,
 };
 
 const UBOL_ORIGIN = runtime.getURL('').replace(/\/$/, '');
+
+const canShowBlockedCount = typeof dnr.setExtensionActionOptions === 'function';
 
 let firstRun = false;
 let wakeupRun = false;
@@ -85,7 +85,12 @@ async function loadRulesetConfig() {
     if ( data ) {
         rulesetConfig.version = data.version;
         rulesetConfig.enabledRulesets = data.enabledRulesets;
-        rulesetConfig.autoReload = data.autoReload && true || false;
+        rulesetConfig.autoReload = typeof data.autoReload === 'boolean'
+            ? data.autoReload
+            : true;
+        rulesetConfig.showBlockedCount = typeof data.showBlockedCount === 'boolean'
+            ? data.showBlockedCount
+            : true;
         wakeupRun = true;
         return;
     }
@@ -93,7 +98,12 @@ async function loadRulesetConfig() {
     if ( data ) {
         rulesetConfig.version = data.version;
         rulesetConfig.enabledRulesets = data.enabledRulesets;
-        rulesetConfig.autoReload = data.autoReload && true || false;
+        rulesetConfig.autoReload = typeof data.autoReload === 'boolean'
+            ? data.autoReload
+            : true;
+        rulesetConfig.showBlockedCount = typeof data.showBlockedCount === 'boolean'
+            ? data.showBlockedCount
+            : true;
         sessionWrite('rulesetConfig', rulesetConfig);
         return;
     }
@@ -201,6 +211,8 @@ function onMessage(request, sender, callback) {
                 maxNumberOfEnabledRulesets: dnr.MAX_NUMBER_OF_ENABLED_STATIC_RULESETS,
                 rulesetDetails: Array.from(rulesetDetails.values()),
                 autoReload: rulesetConfig.autoReload,
+                showBlockedCount: rulesetConfig.showBlockedCount,
+                canShowBlockedCount,
                 firstRun,
             });
             firstRun = false;
@@ -213,6 +225,19 @@ function onMessage(request, sender, callback) {
         saveRulesetConfig().then(( ) => {
             callback();
             broadcastMessage({ autoReload: rulesetConfig.autoReload });
+        });
+        return true;
+
+    case 'setShowBlockedCount':
+        rulesetConfig.showBlockedCount = request.state && true || false;
+        if ( canShowBlockedCount ) {
+            dnr.setExtensionActionOptions({
+                displayActionCountAsBadgeText: rulesetConfig.showBlockedCount,
+            });
+        }
+        saveRulesetConfig().then(( ) => {
+            callback();
+            broadcastMessage({ showBlockedCount: rulesetConfig.showBlockedCount });
         });
         return true;
 
@@ -394,8 +419,8 @@ async function start() {
 
     // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/declarativeNetRequest
     //   Firefox API does not support `dnr.setExtensionActionOptions`
-    if ( wakeupRun === false && dnr.setExtensionActionOptions ) {
-        dnr.setExtensionActionOptions({ displayActionCountAsBadgeText: true });
+    if ( wakeupRun === false && canShowBlockedCount ) {
+        dnr.setExtensionActionOptions({ displayActionCountAsBadgeText: rulesetConfig.showBlockedCount });
         if (action.setBadgeBackgroundColor && action.setBadgeTextColor) {
             action.setBadgeBackgroundColor({ color: [41, 122, 255, 255] });
             action.setBadgeTextColor({ color: [255, 255, 255, 255] });
