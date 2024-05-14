@@ -38,7 +38,6 @@ import cosmeticFilteringEngine from './cosmetic-filtering.js';
 import { hostnameFromURI } from './uri-utils.js';
 import io from './assets.js';
 import logger from './logger.js';
-import lz4Codec from './lz4.js';
 import publicSuffixList from '../lib/publicsuffixlist/publicsuffixlist.js';
 import punycode from '../lib/punycode.js';
 import { redirectEngine } from './redirect-engine.js';
@@ -605,14 +604,10 @@ onBroadcast(msg => {
         this.hiddenSettings.autoCommentFilterTemplate.indexOf('{{') !== -1
     ) {
         const d = new Date();
-        // Date in YYYY-MM-DD format - https://stackoverflow.com/a/50130338
-        const ISO8601Date = new Date(d.getTime() +
-            (d.getTimezoneOffset()*60000)).toISOString().split('T')[0];
         const url = new URL(options.docURL);
-        comment =
-            '! ' +
+        comment = '! ' +
             this.hiddenSettings.autoCommentFilterTemplate
-                .replace('{{date}}', ISO8601Date)
+                .replace('{{date}}', d.toLocaleDateString(undefined, { dateStyle: 'medium' }))
                 .replace('{{time}}', d.toLocaleTimeString())
                 .replace('{{hostname}}', url.hostname)
                 .replace('{{origin}}', url.origin)
@@ -932,7 +927,6 @@ onBroadcast(msg => {
         });
 
         µb.selfieManager.destroy();
-        lz4Codec.relinquish();
         µb.compiledFormatChanged = false;
 
         loadingPromise = undefined;
@@ -1328,7 +1322,6 @@ onBroadcast(msg => {
                 staticNetFilteringEngine.toSelfie()
             ),
         ]);
-        lz4Codec.relinquish();
         µb.selfieIsInvalid = false;
         ubolog('Filtering engine selfie created');
     };

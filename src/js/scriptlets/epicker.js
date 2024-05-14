@@ -19,19 +19,12 @@
     Home: https://github.com/gorhill/uBlock
 */
 
-/* global CSS */
-
-'use strict';
-
-/******************************************************************************/
-/******************************************************************************/
-
 (async ( ) => {
 
 /******************************************************************************/
 
 if ( typeof vAPI !== 'object' ) { return; }
-if ( typeof vAPI === null ) { return; }
+if ( vAPI === null ) { return; }
 
 if ( vAPI.pickerFrame ) { return; }
 vAPI.pickerFrame = true;
@@ -902,6 +895,7 @@ const onOptimizeCandidates = function(details) {
         if ( r !== 0 ) { return r; }
         return a.selector.length - b.selector.length;
     });
+
     pickerFramePort.postMessage({
         what: 'candidatesOptimized',
         candidates: results.map(a => a.selector),
@@ -1163,59 +1157,59 @@ vAPI.shutdown.add(quitPicker);
 
 const onDialogMessage = function(msg) {
     switch ( msg.what ) {
-        case 'start':
-            startPicker();
-            if ( pickerFramePort === null ) { break; }
-            if ( targetElements.length === 0 ) {
-                highlightElements([], true);
-            }
-            break;
-        case 'optimizeCandidates':
-            onOptimizeCandidates(msg);
-            break;
-        case 'dialogCreate':
-            filterToDOMInterface.queryAll(msg);
-            filterToDOMInterface.preview(true, true);
-            quitPicker();
-            break;
-        case 'dialogSetFilter': {
-            const resultset = filterToDOMInterface.queryAll(msg) || [];
-            highlightElements(resultset.map(a => a.elem), true);
-            if ( msg.filter === '!' ) { break; }
-            pickerFramePort.postMessage({
-                what: 'resultsetDetails',
-                count: resultset.length,
-                opt: resultset.length !== 0 ? resultset[0].opt : undefined,
-            });
-            break;
+    case 'start':
+        startPicker();
+        if ( pickerFramePort === null ) { break; }
+        if ( targetElements.length === 0 ) {
+            highlightElements([], true);
         }
-        case 'quitPicker':
-            filterToDOMInterface.preview(false);
+        break;
+    case 'optimizeCandidates':
+        onOptimizeCandidates(msg);
+        break;
+    case 'dialogCreate':
+        filterToDOMInterface.queryAll(msg);
+        filterToDOMInterface.preview(true, true);
+        quitPicker();
+        break;
+    case 'dialogSetFilter': {
+        const resultset = filterToDOMInterface.queryAll(msg) || [];
+        highlightElements(resultset.map(a => a.elem), true);
+        if ( msg.filter === '!' ) { break; }
+        pickerFramePort.postMessage({
+            what: 'resultsetDetails',
+            count: resultset.length,
+            opt: resultset.length !== 0 ? resultset[0].opt : undefined,
+        });
+        break;
+    }
+    case 'quitPicker':
+        filterToDOMInterface.preview(false);
+        quitPicker();
+        break;
+    case 'highlightElementAtPoint':
+        highlightElementAtPoint(msg.mx, msg.my);
+        break;
+    case 'unhighlight':
+        highlightElements([]);
+        break;
+    case 'filterElementAtPoint':
+        filterElementAtPoint(msg.mx, msg.my, msg.broad);
+        break;
+    case 'zapElementAtPoint':
+        zapElementAtPoint(msg.mx, msg.my, msg.options);
+        if ( msg.options.highlight !== true && msg.options.stay !== true ) {
             quitPicker();
-            break;
-        case 'highlightElementAtPoint':
-            highlightElementAtPoint(msg.mx, msg.my);
-            break;
-        case 'unhighlight':
-            highlightElements([]);
-            break;
-        case 'filterElementAtPoint':
-            filterElementAtPoint(msg.mx, msg.my, msg.broad);
-            break;
-        case 'zapElementAtPoint':
-            zapElementAtPoint(msg.mx, msg.my, msg.options);
-            if ( msg.options.highlight !== true && msg.options.stay !== true ) {
-                quitPicker();
-            }
-            break;
-        case 'togglePreview':
-            filterToDOMInterface.preview(msg.state);
-            if ( msg.state === false ) {
-                highlightElements(targetElements, true);
-            }
-            break;
-        default:
-            break;
+        }
+        break;
+    case 'togglePreview':
+        filterToDOMInterface.preview(msg.state);
+        if ( msg.state === false ) {
+            highlightElements(targetElements, true);
+        }
+        break;
+    default:
+        break;
     }
 };
 
